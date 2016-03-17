@@ -1,7 +1,7 @@
 # GR
 Plateforme Gestion et Ressources
 
-Pour que l'appli fonctionne, il est indispensable de compélter les données de connexion à votre base de données, ce en deux endroits :
+Pour que l'appli fonctionne, il est indispensable de compléter les données de connexion à votre base de données, ce en deux endroits :
 ./configuration/main.conf.php
 ./js/php/connect.php
 
