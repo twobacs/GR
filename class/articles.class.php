@@ -23,6 +23,7 @@ function htmltosql($text)
 	}
 
 public function getInfosArticles($id=0){
+	$data['nbArts']=0;
 	$i=0;
 	$sql='SELECT
 	a.id_article, a.id_categorie, a.denomination, a.id_fournisseur, a.stock, a.commentaire, a.id_mesure, a.prix_achat, a.q_min,
@@ -32,10 +33,10 @@ public function getInfosArticles($id=0){
 	FROM articles a
 	LEFT JOIN categories_articles b ON b.id_categorie=a.id_categorie
 	LEFT JOIN fournisseurs c ON c.id_fournisseur=a.id_fournisseur
-	LEFT JOIN unite_mesure d ON d.id_uMesure = a.id_mesure
-	WHERE id_article=:id';
-	$req=$this->pdo->prepare($sql);
-	$req->execute(array('id'=>($id!=0) ? $id : '"*"'));
+	LEFT JOIN unite_mesure d ON d.id_uMesure = a.id_mesure';
+	$sql.=($id==0) ? '' : 'WHERE id_article="'.$id.'";
+	// WHERE id_article=:id';
+	$req=$this->pdo->query($sql);
 	while($row=$req->fetch()){
 		$data[$i]['id_article']=$row['id_article'];
 		$data[$i]['id_categorie']=$row['id_categorie'];
@@ -66,12 +67,18 @@ public function getInfosArticles($id=0){
 		$reqPhotos=$this->pdo->prepare($sql);
 		$reqPhotos->execute(array('idArt'=>$data[$i]['id_article']));
 		while($row=$reqPhotos->fetch()){
-			$data[$i][$j]['id_photo']=$reqPhotos['id_photo'];
-			$data[$i][$j]['nom_fichier_photo']=$reqPhotos['nom_ficher'];
-			$j++;
+			if(isset($row['id_photo'])){
+				$data[$i][$j]['id_photo']=$row['id_photo'];
+				$data[$i][$j]['nom_fichier_photo']=$row['nom_fichier'];
+				$j++;
+			}
 		}
+		$data[$i]['nbPhotos']=$j;
 		$i++;
 	}
+	$data['nbArts']=$i;
+	return $data;
+	
 }
 
 public function getCategories(){
@@ -141,9 +148,5 @@ public function modifFourn($tab){
 	$req->execute();
 }
 
-public function matos(){
-	$sql=('SELECT id_materiels,den_matos FROM materiel');
-	return $this->pdo->query($sql);
-}
 }
 ?>

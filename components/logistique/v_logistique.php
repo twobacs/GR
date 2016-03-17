@@ -959,7 +959,7 @@ public function gestETT($data){
 	$this->appli->content=$html;
 }
 
-public function gestArticles($articles,$categories,$mesures,$fournisseurs,$matos){
+public function gestArticles($articles,$categories,$mesures,$fournisseurs,$matos=''){
 
 	$html='<div id="gestAdminSite">';
 	$html.='<h2>Gestion du petit mat&eacute;riel de bureau</h2>';
@@ -1019,7 +1019,23 @@ public function gestArticles($articles,$categories,$mesures,$fournisseurs,$matos
 			$html.=	'</table></div>';*/
 	//END MODIFS @CLem
 
-	$html.='<div id="slide1"><h3>Mat&eacute;riel</h3></div>';
+	$html.='<div id="slide1"><h3>Mat&eacute;riel</h3>';
+	$html.='<a href="?component=logistique&action=addPMB"><input type="button" value="Ajouter un article"></a><hr>';
+	if($articles['nbArts']==0){
+		$html.='Aucun article n\'est actuellement encod&eacute;';
+	}
+	else{
+		for($i=0;$i<$articles['nbArts'];$i++){
+			$html.='<table class="table" id="tableArt'.$articles[$i]['id_article'].'">';
+			$html.='<tr><td><input type="text" name="denArti" id="denArt" value="D&eacute;nomination : '.$articles[$i]['denomination'].'" placeHolder="D&eacute;nomination article" readonly style="cursor:not-allowed;"></td><td><input type="text" name="denCategArt" id="denCategArt" value="Cat&eacute;gorie : '.ucfirst($articles[$i]['denCateg']).'" placeHolder="D&eacute;nomination cat&eacute;gorie" readonly style="cursor:not-allowed;"></td></tr>';
+			$html.='<tr><td><input type="text" name="stockArt" id="stockArt" value="Stock actuel : '.$articles[$i]['stock'].'  '.$articles[$i]['uMesure'].'" readonly style="cursor:not-allowed;"></td><td><input type="text" name="stockMini" id="stockMini" value="Stock minimum : '.$articles[$i]['q_min'].' '.$articles[$i]['uMesure'].'" readonly style="cursor:not-allowed"></td></tr>';
+			$html.='<tr><td colspan="2"><input type="button" value="Modifier ce mat&eacute;riel"></td></tr>';
+			$html.='</table>';
+			$html.='<hr>';
+		}
+		
+	}
+	$html.='</div>';
 	$html.='<div id="slide2"';
 	$html.=((isset($_GET['visible']))&&($_GET['visible']=='categ')) ? ' style="display:block";' : '';
 	$html.='><h3>Cat&eacute;gories</h3>';
@@ -1083,6 +1099,21 @@ public function gestArticles($articles,$categories,$mesures,$fournisseurs,$matos
 	
 	$html.='</div>';
 	$this->appli->content=$html; 
+}
+
+public function formAddPMB($categories,$mesures,$fournisseurs){
+	$html='<div id="gestAdminSite">';
+	$html.='<h2>Ajout de petit mat&eacute;riel de bureau</h2>';
+	$html.='<form method="POST" action="?component=logistique&action=addPMD&record"><table class="table">';
+	$html.='<tr><td><input type="text" name="denNewArt" id="denNewArt" placeHolder="D&eacute;nomination nouvel article (obligatoire)" autofocus required></td><td><input type="text" name="comNewArt" id="comNewArt" placeHolder="Commentaire &eacute;ventuel"></td></tr>';
+	$html.='<tr><td><select name="categNewArt" id="categNewArt" placeHolder="Cat&eacute;gorie"><option value="" disabled selected></option>';
+	while($row=$categories->fetch()){
+		$html.='<option value="'.$row['id_categorie'].'">'.$row['denomination'].'</option>';
+	}
+	$html.='</select></td></tr>';
+	$html.='<tr><td colspan="2"><input type="submit" value="Enregistrer ce nouvel article"></td></tr>';
+	$html.='</table></form>';
+	$this->appli->content=$html;
 }
 }
 ?>

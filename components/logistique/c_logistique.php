@@ -211,8 +211,16 @@ public function gestPMB(){
 		$categories=$this->model->getCategories();
 		$mesures=$this->model->getMesures();
 		$fournisseurs=$this->model->getFournisseurs();
-		$matos=$this->model->matos();
-		$this->view->gestArticles($articles,$categories,$mesures,$fournisseurs,$matos);
+		$this->view->gestArticles($articles,$categories,$mesures,$fournisseurs);
+	}
+}
+
+public function addPMB(){
+	if((isset($_SESSION['idUser']))&&($_SESSION['appli']=='logistique')&&($_SESSION['acces']>='8')){
+		$categories=$this->model->getCategories();
+		$mesures=$this->model->getMesures();
+		$fournisseurs=$this->model->getFournisseurs();
+		$this->view->formAddPMB($categories,$mesures,$fournisseurs);
 	}
 }
 

@@ -841,10 +841,10 @@ public function getFournisseurs(){
 	$fournisseur=new Fournisseurs($this->appli->dbPdo);
 	return $fournisseur->getFournisseurs();	
 }
-public function matos(){
+public function getMateriel(){
 	include_once('./class/articles.class.php');
 	$matos=new Articles($this->appli->dbPdo);
-	return $matos->matos();
+	return $matos->getInfosArticles();
 }
 }
 ?>
