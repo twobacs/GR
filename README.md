@@ -1,7 +1,10 @@
 # GR
 Plateforme Gestion et Ressources
 
-Deux fichiers sont volontairement manquants car contenant, entre autres, les données d'accès aux bases de données.
-Ces fichiers sont indispensables au fonctionnement de l'appli.
+Pour que l'appli fonctionne, il est indispensable de compélter les données de connexion à votre base de données, ce en deux endroits :
+./configuration/main.conf.php
+./js/php/connect.php
 
-Pour les obtenir et savoir où les uploader, veuillez m'envoyer un mail à twobacs@gmail.com
+De plus, dans le fichier ./js/php/connect.php il faudra ajouter le chemin d'accès aux class utilisées
+
+Pour toute aide, veuillez m'envoyer un mail à twobacs@gmail.com
