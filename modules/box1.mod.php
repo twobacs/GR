@@ -200,7 +200,14 @@ if(isset($_SESSION['idUser'])){
 		$html.=$gestETTs;
 		$html.=(isset($_GET['retrait'])) ? $confirmSupp : '';
 		$html.=(isset($_GET['ajout'])) ? $confirmUpdate : '';
-	}		
+	}
+	
+	if(($component=='logistique')&&($action=='addPMB')){
+		$html.=$accueil;
+		$html.=$logistique;
+		$html.=$gestPMB;
+		$html.='<li>Ajout mat&eacute;riel</li>';
+	}
 	
 	if(($component=='logistique')&&($action=='assoc')){
 		$html.=$accueil;

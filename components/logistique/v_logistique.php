@@ -1104,15 +1104,25 @@ public function gestArticles($articles,$categories,$mesures,$fournisseurs,$matos
 public function formAddPMB($categories,$mesures,$fournisseurs){
 	$html='<div id="gestAdminSite">';
 	$html.='<h2>Ajout de petit mat&eacute;riel de bureau</h2>';
-	$html.='<form method="POST" action="?component=logistique&action=addPMD&record"><table class="table">';
+	$html.='<form method="POST" action="?component=logistique&action=addPMD&record"><table class="table" style="vertical-align:center;">';
 	$html.='<tr><td><input type="text" name="denNewArt" id="denNewArt" placeHolder="D&eacute;nomination nouvel article (obligatoire)" autofocus required></td><td><input type="text" name="comNewArt" id="comNewArt" placeHolder="Commentaire &eacute;ventuel"></td></tr>';
-	$html.='<tr><td><select name="categNewArt" id="categNewArt" placeHolder="Cat&eacute;gorie"><option value="" disabled selected></option>';
+	$html.='<tr><td><select  class="form-control" name="categNewArt" id="categNewArt"><option disabled selected>Cat&eacute;gorie</option>';
 	while($row=$categories->fetch()){
-		$html.='<option value="'.$row['id_categorie'].'">'.$row['denomination'].'</option>';
+		$html.='<option value="'.$row['id_categorie'].'">'.ucfirst($row['denomination']).'</option>';
+	}
+	$html.='</select></td><td><select name="fournNewArt" id="fournNewArt" class="form-control"><option disabled selected>Fournisseur</option>';
+	while($row=$fournisseurs->fetch()){
+		$html.='<option value="'.$row['id_fournisseur'].'">'.$row['nom'].'</option>';
 	}
 	$html.='</select></td></tr>';
+	$html.='<tr><td><input type="text" name="stockNewArt" id="stockNewArt" placeHolder="Stock"></td><td><select name="uMesureNewArt" id="uMesureNewArt" class="form-control"><option disabled selected>Unit&eacute; de mesure</option>';
+	while($row=$mesures->fetch()){
+		$html.='<option value="'.$row['id_uMesure'].'">'.$row['denomination'].'</option>';
+	}
+	$html.='</select></td></tr>';	
+	$html.='<tr><td><input type="text" name="paNewArt" id="paNewArt" placeHolder="Prix d\'achat unitaire"></td><td><input type="text" name="qMinNewArt" id="qMinNewArt" placeHolder="Quantit&eacute; minimale"></td></tr>';
 	$html.='<tr><td colspan="2"><input type="submit" value="Enregistrer ce nouvel article"></td></tr>';
-	$html.='</table></form>';
+	$html.='</table></form></div>';
 	$this->appli->content=$html;
 }
 }
