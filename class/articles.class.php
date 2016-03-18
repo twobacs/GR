@@ -148,5 +148,22 @@ public function modifFourn($tab){
 	$req->execute();
 }
 
+public function addNewArticle($tab){
+	$sql='INSERT INTO articles (id_categorie,denomination,id_fournisseur,stock,commentaire,id_mesure,prix_achat,q_min) VALUES (:idCat,:denom,:idFourn,:stock,:commentaire,:idMesure,:PA,:qMin)';
+	$req=$this->pdo->prepare($sql);
+	if($req){
+	$req->bindParam(':idCat',$tab['categNewArt'],PDO::PARAM_INT);
+	$req->bindParam(':denom',$tab['denNewArt'],PDO::PARAM_STR);
+	$req->bindParam(':idFourn',$tab['fournNewArt'],PDO::PARAM_INT);
+	$req->bindParam(':stock',$tab['stockNewArt'],PDO::PARAM_INT);
+	$req->bindParam(':commentaire',$tab['comNewArt'],PDO::PARAM_STR);
+	$req->bindParam(':idMesure',$tab['uMesureNewArt'],PDO::PARAM_INT);
+	$req->bindParam(':PA',$tab['paNewArt'],PDO::PARAM_STR);
+	$req->bindParam(':qMin',$tab['qMinNewArt'],PDO::PARAM_INT);
+	$req->execute();
+	}
+	return $req;
+}
+
 }
 ?>

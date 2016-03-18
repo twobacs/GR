@@ -964,7 +964,7 @@ public function gestArticles($articles,$categories,$mesures,$fournisseurs,$matos
 	$html='<div id="gestAdminSite">';
 	$html.='<h2>Gestion du petit mat&eacute;riel de bureau</h2>';
 	$html.='<ul style="list-style: none;" id="adminModules">';
-	$html.='<li style="list-style: none;" onclick="slide(\'slide1\',\'0\');">Mat&eacute;riel</li><li onclick="slide(\'slide2\',\'0\');">Cat&eacute;gories</li><li onclick="slide(\'slide3\',\'0\');">Mesures</li><li onclick="slide(\'slide4\',\'0\');">Fournisseurs</li>';
+	$html.='<li style="list-style: none; cursor:pointer;" onclick="slide(\'slide1\',\'0\');">Mat&eacute;riel</li><li style="cursor:pointer;" onclick="slide(\'slide2\',\'0\');">Cat&eacute;gories</li><li style="cursor:pointer;" onclick="slide(\'slide3\',\'0\');">Mesures</li><li style="cursor:pointer;" onclick="slide(\'slide4\',\'0\');">Fournisseurs</li>';
 	/*$html.='<div id="slide1"><h3>Mat&eacute;riel</h3>';  //Modifs @Clem//
 		$html.='
 			<table class="table">
@@ -1019,7 +1019,9 @@ public function gestArticles($articles,$categories,$mesures,$fournisseurs,$matos
 			$html.=	'</table></div>';*/
 	//END MODIFS @CLem
 
-	$html.='<div id="slide1"><h3>Mat&eacute;riel</h3>';
+	$html.='<div id="slide1"';
+	$html.=((isset($_GET['visible']))&&($_GET['visible']=='articles')) ? ' style="display:block";' : '';
+	$html.='><h3>Mat&eacute;riel</h3>';
 	$html.='<a href="?component=logistique&action=addPMB"><input type="button" value="Ajouter un article"></a><hr>';
 	if($articles['nbArts']==0){
 		$html.='Aucun article n\'est actuellement encod&eacute;';
@@ -1030,6 +1032,7 @@ public function gestArticles($articles,$categories,$mesures,$fournisseurs,$matos
 			$html.='<tr><td><input type="text" name="denArti" id="denArt" value="D&eacute;nomination : '.$articles[$i]['denomination'].'" placeHolder="D&eacute;nomination article" readonly style="cursor:not-allowed;"></td><td><input type="text" name="denCategArt" id="denCategArt" value="Cat&eacute;gorie : '.ucfirst($articles[$i]['denCateg']).'" placeHolder="D&eacute;nomination cat&eacute;gorie" readonly style="cursor:not-allowed;"></td></tr>';
 			$html.='<tr><td><input type="text" name="stockArt" id="stockArt" value="Stock actuel : '.$articles[$i]['stock'].'  '.$articles[$i]['uMesure'].'" readonly style="cursor:not-allowed;"></td><td><input type="text" name="stockMini" id="stockMini" value="Stock minimum : '.$articles[$i]['q_min'].' '.$articles[$i]['uMesure'].'" readonly style="cursor:not-allowed"></td></tr>';
 			$html.='<tr><td colspan="2"><input type="button" value="Modifier ce mat&eacute;riel"></td></tr>';
+			$html.='<tr><td colspan="2"><input type="button" value="Supprimer ce mat&eacute;riel" style="border-color:red;" onclick="deleteArtById(\''.$articles[$i]['id_article'].'\');"></td></tr>';
 			$html.='</table>';
 			$html.='<hr>';
 		}
@@ -1104,7 +1107,7 @@ public function gestArticles($articles,$categories,$mesures,$fournisseurs,$matos
 public function formAddPMB($categories,$mesures,$fournisseurs){
 	$html='<div id="gestAdminSite">';
 	$html.='<h2>Ajout de petit mat&eacute;riel de bureau</h2>';
-	$html.='<form method="POST" action="?component=logistique&action=addPMD&record"><table class="table" style="vertical-align:center;">';
+	$html.='<form method="POST" action="?component=logistique&action=addPMB&record"><table class="table">';
 	$html.='<tr><td><input type="text" name="denNewArt" id="denNewArt" placeHolder="D&eacute;nomination nouvel article (obligatoire)" autofocus required></td><td><input type="text" name="comNewArt" id="comNewArt" placeHolder="Commentaire &eacute;ventuel"></td></tr>';
 	$html.='<tr><td><select  class="form-control" name="categNewArt" id="categNewArt"><option disabled selected>Cat&eacute;gorie</option>';
 	while($row=$categories->fetch()){

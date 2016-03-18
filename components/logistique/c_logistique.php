@@ -217,10 +217,16 @@ public function gestPMB(){
 
 public function addPMB(){
 	if((isset($_SESSION['idUser']))&&($_SESSION['appli']=='logistique')&&($_SESSION['acces']>='8')){
-		$categories=$this->model->getCategories();
-		$mesures=$this->model->getMesures();
-		$fournisseurs=$this->model->getFournisseurs();
-		$this->view->formAddPMB($categories,$mesures,$fournisseurs);
+		if(!isset($_GET['record'])){
+			$categories=$this->model->getCategories();
+			$mesures=$this->model->getMesures();
+			$fournisseurs=$this->model->getFournisseurs();
+			$this->view->formAddPMB($categories,$mesures,$fournisseurs);
+		}
+		else{
+			$this->model->addNewArt();
+			header('location: ?component=logistique&action=gestPMB&visible=articles');	
+		}
 	}
 }
 

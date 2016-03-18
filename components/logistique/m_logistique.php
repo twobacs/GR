@@ -846,5 +846,11 @@ public function getMateriel(){
 	$matos=new Articles($this->appli->dbPdo);
 	return $matos->getInfosArticles();
 }
+
+public function addNewArt(){
+	include_once('./class/articles.class.php');
+	$matos=new Articles($this->appli->dbPdo);
+	$matos->addNewArticle($_POST);
+}
 }
 ?>
