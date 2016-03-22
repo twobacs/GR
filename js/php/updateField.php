@@ -1,7 +1,7 @@
 <?php
 
 if(isset($_GET['objet'])){
-	include('connect.php');
+	include('autoload.php');
 	$objet=$_GET['objet'];
 	$field=$_GET['field'];
 	$id=$_GET['id'];

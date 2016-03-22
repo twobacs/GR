@@ -1,9 +1,9 @@
 <?php
 
 if(isset($_GET['idArt'])){
-	include('../connect.php');
+	include('../autoload.php');
 	$art=new Articles($pdo);
-	echo $art->delArticlesById($_GET['idArt']);
+	print_r($art->delArticlesById($_GET['idArt']));
 	// echo $_GET['idArt'];
 }
 

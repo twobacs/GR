@@ -565,7 +565,8 @@ function modifArtById(id,denom){
 			idArt:id,
 		},
 		success:function(retour){
-			document.getElementById('formModifArt'+id).innerHTML=tableInit;
+			alert(retour);
+			// document.getElementById('formModifArt'+id).innerHTML=tableInit;
 		}
 	});
 	document.getElementById('tableArt'+id).innerHTML=tableInit;
