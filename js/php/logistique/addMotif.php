@@ -1,7 +1,7 @@
 <?php
 
 if(isset($_GET['objet'])){
-	include('../connect.php');
+	include('../autoload.php');
 	$dispo=((isset($_GET['motif']))&&($_GET['motif']=='attrib')) ? 'N' : $_GET['dispo'];
 	$sql='INSERT INTO motifs_objet (objet, motif, cause, dispo) VALUES (:objet, :motif, :cause, :dispo)';
 	$req=$pdo->prepare($sql);

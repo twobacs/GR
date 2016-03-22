@@ -22,7 +22,7 @@ function htmltosql($text)
 	return $rep;
 	}
 
-public function getInfosArticles($id=0){
+public function getInfosArticles($id=0,$actif="O"){
 	$data['nbArts']=0;
 	$i=0;
 	$sql='SELECT
@@ -34,7 +34,7 @@ public function getInfosArticles($id=0){
 	LEFT JOIN categories_articles b ON b.id_categorie=a.id_categorie
 	LEFT JOIN fournisseurs c ON c.id_fournisseur=a.id_fournisseur
 	LEFT JOIN unite_mesure d ON d.id_uMesure = a.id_mesure';
-	$sql.=($id==0) ? '' : 'WHERE id_article="'.$id.'";
+	$sql.=($id==0) ? ' WHERE a.actif="'.$actif.'"' : ' WHERE a.id_article="'.$id.'";
 	// WHERE id_article=:id';
 	$req=$this->pdo->query($sql);
 	while($row=$req->fetch()){
@@ -163,6 +163,14 @@ public function addNewArticle($tab){
 	$req->execute();
 	}
 	return $req;
+}
+
+public function delArticlesById($id){
+	$sql='UPDATE articles SET actif="N" WHERE id_article=:id';
+	$req=$this->pdo->prepare($sql);
+	$req->bindParam(':id',$id,PDO::PARAM_INT);
+	$req->execute();
+	return $req->rowCount();
 }
 
 }

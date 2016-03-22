@@ -1,7 +1,7 @@
 <?php
 
 if(isset($_GET['idFourn'])){
-	include ('../connect.php');
+	include ('../autoload.php');
 	$id=$_GET['idFourn'];
 	$fourn=NEW Fournisseurs($pdo);
 	$data = $fourn->getFournisseurById($id);

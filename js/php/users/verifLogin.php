@@ -1,7 +1,7 @@
 <?php
 
 if(isset($_GET['login'])){
-	include('../connect.php');
+	include('../autoload.php');
 	$sql='SELECT COUNT(*) FROM users WHERE login=:login';
 	$req=$pdo->prepare($sql);
 	$req->execute(array('login'=>$_GET['login']));

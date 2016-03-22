@@ -1,7 +1,7 @@
 ﻿<?php
 
 if(isset($_GET['type'])){
-	include('../connect.php');
+	include('../autoload.php');
 	$type=$_GET['type'];
 	$user=$_GET['user'];
 	$sql='SELECT nom, prenom FROM users WHERE id_user="'.$user.'"';

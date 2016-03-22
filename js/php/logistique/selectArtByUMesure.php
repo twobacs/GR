@@ -1,8 +1,7 @@
 <?php
 
 if(isset($_GET['id'])){
-	include ('../connect.php');
-	include('../../../class/articles.class.php');
+	include ('../autoload.php');
 	$art=new Articles($pdo);
 	$articles=$art->getArticlesByIdMesure($_GET['id']);
 	$mesures=$art->getMesures();

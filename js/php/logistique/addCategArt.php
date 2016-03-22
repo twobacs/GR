@@ -1,8 +1,7 @@
 <?php
 
 if(isset($_GET['newCateg'])){
-	include ('../connect.php');
-	include('../../../class/articles.class.php');
+	include ('../autoload.php');
 	$art=new Articles($pdo);
 	$art->addCateg($_GET['newCateg']);
 }

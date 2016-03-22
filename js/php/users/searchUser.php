@@ -1,7 +1,7 @@
 <?php
 
 if(isset($_GET['type'])){
-	include('../connect.php');
+	include('../autoload.php');
 	$html='';
 	$sql='SELECT id_user, nom, prenom FROM users WHERE '.$_GET['type'].' LIKE :entry AND actif="O" ORDER BY nom, prenom';
 	$req=$pdo->prepare($sql);

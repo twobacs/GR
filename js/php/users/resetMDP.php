@@ -1,7 +1,7 @@
 <?php
 
 if(isset($_GET['id'])){
-	include('../connect.php');
+	include('../autoload.php');
 	$id=$_GET['id'];
 	$sql='UPDATE users SET mdp_user=:mdp, log_error="0" WHERE id_user=:id';
 	$req=$pdo->prepare($sql);

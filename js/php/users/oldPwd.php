@@ -1,7 +1,7 @@
 <?php
 
 if(isset($_GET['oldPwd'])){
-	include('../connect.php');
+	include('../autoload.php');
 	$oldPwd=$_GET['oldPwd'];
 	$user=$_GET['user'];
 	$sql='SELECT mdp_user FROM users WHERE id_user=:user';

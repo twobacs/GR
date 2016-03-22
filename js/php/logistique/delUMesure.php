@@ -1,7 +1,7 @@
 <?php
 
 if(isset($_GET['id'])){
-	include ('../connect.php');
+	include ('../autoload.php');
 	$sql='SELECT COUNT(*) FROM articles WHERE id_mesure=:id';
 	$req=$pdo->prepare($sql);
 	$req->execute(array('id'=>$_GET['id']));

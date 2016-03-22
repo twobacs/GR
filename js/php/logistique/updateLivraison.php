@@ -1,8 +1,7 @@
 <?php
 
 if(isset($_GET['type'])){
-	include('../connect.php');
-	$sql='blah';
+	include('../autoload.php');
 	if ($_GET['type']=='arme'){
 		switch($_GET['sub']){
 			case 'livraison':
