@@ -555,8 +555,8 @@ function deleteArtById(idArt,denomArt){
 	}
 }
 
-function modifArtById(id,denom){
-	var ok = confirm ('Etes-vous sûr de vouloir modifier cet article ? ('+denom+')');
+function formModifArtById(id,denom){
+	// var ok = confirm ('Etes-vous sûr de vouloir modifier cet article ? ('+denom+')');
 	var tableInit=document.getElementById('tableArt'+id).innerHTML;
 	$.ajax({
 		type:"GET",
@@ -565,9 +565,17 @@ function modifArtById(id,denom){
 			idArt:id,
 		},
 		success:function(retour){
-			alert(retour);
-			// document.getElementById('formModifArt'+id).innerHTML=tableInit;
+			// alert(retour);
+			document.getElementById('formModifArt'+id).innerHTML=retour;
 		}
 	});
 	document.getElementById('tableArt'+id).innerHTML=tableInit;
+}
+
+function infobulle(div,msg){
+	document.getElementById(div).value=msg;
+}
+
+function hideInfobulle(div,msg){
+	document.getElementById(div).value=msg;
 }

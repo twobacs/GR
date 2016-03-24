@@ -1031,7 +1031,7 @@ public function gestArticles($articles,$categories,$mesures,$fournisseurs,$matos
 			$html.='<table class="table" id="tableArt'.$articles[$i]['id_article'].'">';
 			$html.='<tr><td><input type="text" name="denArti" id="denArt'.$articles[$i]['id_article'].'" value="'.$articles[$i]['denomination'].'" placeHolder="D&eacute;nomination article" readonly style="cursor:not-allowed;"></td><td><input type="text" name="denCategArt" id="denCategArt'.$articles[$i]['id_article'].'" value="Cat&eacute;gorie : '.ucfirst($articles[$i]['denCateg']).'" placeHolder="D&eacute;nomination cat&eacute;gorie" readonly style="cursor:not-allowed;"></td>';
 			$html.='<td><input type="text" name="stockArt" id="stockArt'.$articles[$i]['id_article'].'" value="Stock actuel : '.$articles[$i]['stock'].'  '.$articles[$i]['uMesure'].'" readonly style="cursor:not-allowed;"></td><td><input type="text" name="stockMini" id="stockMini'.$articles[$i]['id_article'].'" value="Stock minimum : '.$articles[$i]['q_min'].' '.$articles[$i]['uMesure'].'" readonly style="cursor:not-allowed"></td></tr>';
-			$html.='<tr><td colspan="2"><input type="button" value="Modifier ce mat&eacute;riel" onclick="modifArtById(\''.$articles[$i]['id_article'].'\');"></td>';
+			$html.='<tr><td colspan="2"><input type="button" value="Modifier ce mat&eacute;riel" onclick="formModifArtById(\''.$articles[$i]['id_article'].'\',\''.$articles[$i]['denomination'].'\');"></td>';
 			$html.='<td colspan="2"><input type="button" value="Supprimer ce mat&eacute;riel" style="border-color:red;" onclick="deleteArtById(\''.$articles[$i]['id_article'].'\',\''.$articles[$i]['denomination'].'\');"></td></tr>';
 			$html.='</table>';
 			$html.='<div id="formModifArt'.$articles[$i]['id_article'].'"></div>';
@@ -1108,7 +1108,7 @@ public function gestArticles($articles,$categories,$mesures,$fournisseurs,$matos
 public function formAddPMB($categories,$mesures,$fournisseurs){
 	$html='<div id="gestAdminSite">';
 	$html.='<h2>Ajout de petit mat&eacute;riel de bureau</h2>';
-	$html.='<form method="POST" action="?component=logistique&action=addPMB&record"><table class="table">';
+	$html.='<form class="form-inline" role="form" method="POST" action="?component=logistique&action=addPMB&record"><table class="table">';
 	$html.='<tr><td><input type="text" name="denNewArt" id="denNewArt" placeHolder="D&eacute;nomination nouvel article (obligatoire)" autofocus required></td><td><input type="text" name="comNewArt" id="comNewArt" placeHolder="Commentaire &eacute;ventuel"></td></tr>';
 	$html.='<tr><td><select  class="form-control" name="categNewArt" id="categNewArt"><option disabled selected>Cat&eacute;gorie</option>';
 	while($row=$categories->fetch()){
