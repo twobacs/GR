@@ -556,7 +556,6 @@ function deleteArtById(idArt,denomArt){
 }
 
 function formModifArtById(id,denom){
-	// var ok = confirm ('Etes-vous sûr de vouloir modifier cet article ? ('+denom+')');
 	var tableInit=document.getElementById('tableArt'+id).innerHTML;
 	$.ajax({
 		type:"GET",
@@ -570,6 +569,41 @@ function formModifArtById(id,denom){
 		}
 	});
 	document.getElementById('tableArt'+id).innerHTML=tableInit;
+}
+
+function recordModifsArticlesById(id){
+	document.getElementById('main').style.cursor="wait";
+	var denom = document.getElementById('newDenomArt'+id).value;
+	var categ = document.getElementById('newCategArt'+id).value;
+	var stock = document.getElementById('newStockArt'+id).value;
+	var uMesure = document.getElementById('newUMesureArt'+id).value;
+	var commentaire = document.getElementById('newComArt'+id).value;
+	var fourn = document.getElementById('newFournArt'+id).value;
+	var qmin = document.getElementById('newQminArt'+id).value;
+	var PA = document.getElementById('newPaArt'+id).value;
+	$.ajax({
+		type:"GET",
+		url:"js/php/logistique/recordModifsArtById.php",
+		data:{
+			idArt : id,
+			denom : denom,
+			categ: categ,
+			stock : stock,
+			uMesure : uMesure,
+			commentaire : commentaire,
+			fourn : fourn,
+			qmin : qmin,
+			PA : PA,
+		},
+		success:function(retour){
+			if(retour==0){
+					alert('Une erreur s\'est produite');
+					document.getElementById('main').style.cursor="default";
+				}
+				else{
+					setTimeout(function(){window.location.href="?component=logistique&action=gestPMB&visible=articles"},2000);
+				}},
+	});
 }
 
 function infobulle(div,msg){

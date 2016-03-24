@@ -12,7 +12,7 @@ if(isset($_GET['idArt'])){
 	$html='<hr>';
 
 	$html.='
-	<form class="form-inline">
+	<div class="form-inline">
 	  <div class="form-group">
 		<label class="sr-only" for="newDenomArt'.$id.'">D&eacute;nomination</label>
 		<div class="input-group">
@@ -81,10 +81,10 @@ if(isset($_GET['idArt'])){
 	 </div><br />
 	 <div class="form-group">
 	 <div class="input-group">
-	 <button style="width:646px" type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+	 <button style="width:646px" type="submit" class="btn btn-primary" onclick="recordModifsArticlesById(\''.$id.'\');">Enregistrer les modifications</button>
 	 </div>
 	 </div>
-	</form>';
+	</div>';
 	echo $html;
 	
 }

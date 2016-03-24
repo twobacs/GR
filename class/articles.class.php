@@ -173,5 +173,21 @@ public function delArticlesById($id){
 	return $req->rowCount();
 }
 
+public function recordModifsArtById($tab){
+	$sql='UPDATE articles SET id_categorie=:idCat, denomination=:denom, id_fournisseur=:idFourn, stock=:stock, commentaire=:com, id_mesure=:idMesure, prix_achat=:PA, q_min=:qMin WHERE id_article=:idArt';
+	$req=$this->pdo->prepare($sql);
+	$req->bindParam(':idCat',$tab['categ'],PDO::PARAM_INT);
+	$req->bindParam(':denom',$tab['denom'],PDO::PARAM_STR);
+	$req->bindParam(':idFourn',$tab['fourn'],PDO::PARAM_STR);
+	$req->bindParam(':stock',$tab['stock'],PDO::PARAM_INT);
+	$req->bindParam(':com',$tab['commentaire'],PDO::PARAM_STR);
+	$req->bindParam(':idMesure',$tab['uMesure'],PDO::PARAM_INT);
+	$req->bindParam(':PA',$tab['PA'],PDO::PARAM_STR);
+	$req->bindParam(':qMin',$tab['qmin'],PDO::PARAM_INT);
+	$req->bindParam(':idArt',$tab['idArt'],PDO::PARAM_INT);
+	$req->execute();
+	return $req->rowCount();
+}
+
 }
 ?>
