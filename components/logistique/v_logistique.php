@@ -1108,7 +1108,84 @@ public function gestArticles($articles,$categories,$mesures,$fournisseurs,$matos
 public function formAddPMB($categories,$mesures,$fournisseurs){
 	$html='<div id="gestAdminSite">';
 	$html.='<h2>Ajout de petit mat&eacute;riel de bureau</h2>';
-	$html.='<form class="form-inline" role="form" method="POST" action="?component=logistique&action=addPMB&record"><table class="table">';
+	//*
+	$html.='
+<div id="gestAdminSite">
+    <form class="form-inline" method="POST" action="?component=logistique&action=addPMB&record">
+        <div class="form-group">
+            <label class="sr-only" for="denNewArt">D&eacute;nomination</label>
+            <div class="input-group">
+                <div class="input-group-addon" style="width:120px">D&eacute;nomination</div>
+                <input style="width:200px;" type="text" class="form-control" id="denNewArt" name="denNewArt" placeholder="Nouvel article" autofocus required />
+            </div>
+            <label class="sr-only" for="comNewArt">Commentaire</label>
+            <div class="input-group">
+                <div class="input-group-addon" style="width:120px">Commentaire</div>
+                <input style="width:200px;" type="text" class="form-control" id="comNewArt" name="comNewArt" placeholder="Commentaire" value="N&eacute;ant" required />
+            </div>
+        </div><br />
+        <div class="form-group">
+            <label class="sr-only" for="categNewArt">Cat&eacute;gorie</label>
+            <div class="input-group">
+                <div class="input-group-addon" style="width:120px">Cat&eacute;gorie</div>
+                <select style="width:200px;" class="form-control" id="categNewArt" name="categNewArt"><option disabled selected></option>';
+				while($row=$categories->fetch()){
+					$html.='<option value="'.$row['id_categorie'].'">'.ucfirst($row['denomination']).'</option>';
+				}
+				$html.='
+				</select>
+            </div>
+            <label class="sr-only" for="fournNewArt">Fournisseur</label>
+            <div class="input-group">
+                <div class="input-group-addon" style="width:120px">Fournisseur</div>
+                <select style="width:200px;" class="form-control" id="fournNewArt" name="fournNewart"><option disabled selected></option>';
+					while($row=$fournisseurs->fetch()){
+						$html.='<option value="'.$row['id_fournisseur'].'">'.$row['nom'].'</option>';
+					}
+				$html.='
+				</select>
+            </div>           
+        </div><br />
+        <div class="form-group">
+            <label class="sr-only" for="stockNewArt">Stock</label>
+            <div class="input-group">
+                <div class="input-group-addon" style="width:120px">Stock</div>
+                <input type="text" style="width:200px;" class="form-control" id="stockNewArt" name="stockNewArt" placeholder="Stock">
+            </div>
+            <label class="sr-only" for="uMesureNewArt">Unit&eacute; mesure</label>
+            <div class="input-group">
+                <div class="input-group-addon" style="width:120px">Unit&eacute; mesure</div>
+                <select style="width:200px;" class="form-control" id="uMesureNewArt" name="uMesureNewArt"><option disabled selected></option>';
+				while($row=$mesures->fetch()){
+					$html.='<option value="'.$row['id_uMesure'].'">'.$row['denomination'].'</option>';
+				}
+				$html.='
+				</select>
+            </div>
+        </div><br />
+        <div class="form-group">
+            <label class="sr-only" for="paNewArt">Stock</label>
+            <div class="input-group">
+                <div class="input-group-addon" style="width:120px">Stock</div>
+                <input type="text" style="width:200px;" class="form-control" id="paNewArt" name="paNewArt" placeholder="Prix d\'achat unitaire">
+            </div>
+            <label class="sr-only" for="qMinNewArt">Stock</label>
+            <div class="input-group">
+                <div class="input-group-addon" style="width:120px">Stock</div>
+                <input type="text" style="width:200px;" class="form-control" id="qMinNewArt" name="qMinNewArt" placeholder="Quantit&eacute minimale">
+            </div>
+        </div>
+        <div class="form-group">
+	       <div class="input-group">
+	       <button style="width:646px" type="submit" class="btn btn-primary">Enregistrer</button>
+	       </div>
+	   </div>
+    </form>
+</div>
+';
+	$this->appli->content=$html;//*/
+	
+	/*
 	$html.='<tr><td><input type="text" name="denNewArt" id="denNewArt" placeHolder="D&eacute;nomination nouvel article (obligatoire)" autofocus required></td><td><input type="text" name="comNewArt" id="comNewArt" placeHolder="Commentaire &eacute;ventuel"></td></tr>';
 	$html.='<tr><td><select  class="form-control" name="categNewArt" id="categNewArt"><option disabled selected>Cat&eacute;gorie</option>';
 	while($row=$categories->fetch()){
@@ -1126,8 +1203,8 @@ public function formAddPMB($categories,$mesures,$fournisseurs){
 	$html.='</select></td></tr>';	
 	$html.='<tr><td><input type="text" name="paNewArt" id="paNewArt" placeHolder="Prix d\'achat unitaire"></td><td><input type="text" name="qMinNewArt" id="qMinNewArt" placeHolder="Quantit&eacute; minimale"></td></tr>';
 	$html.='<tr><td colspan="2"><input type="submit" value="Enregistrer ce nouvel article"></td></tr>';
-	$html.='</table></form></div>';
-	$this->appli->content=$html;
+	$html.='</form></div>';
+	$this->appli->content=$html;//*/
 }
 }
 ?>
