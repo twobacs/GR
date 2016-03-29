@@ -531,13 +531,13 @@ function updateFourn(id){
 	}	
 }
 
-function deleteArtById(idArt,denomArt){
+function deActiveArtById(idArt,denomArt){
 	var ok = confirm('Etes-vous sûr de vouloir supprimer cet article ? ('+denomArt+')');
 	if(ok){
 		document.getElementById('main').style.cursor="wait";
 		$.ajax({
 			type:"GET",
-			url:"js/php/logistique/delArticleById.php",
+			url:"js/php/logistique/deActiveArtById.php",
 			data:{
 				idArt:idArt,
 			},

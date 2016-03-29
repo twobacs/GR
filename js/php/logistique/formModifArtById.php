@@ -76,7 +76,7 @@ if(isset($_GET['idArt'])){
 		<div class="input-group">
 			<div class="input-group-addon" style="width:120px">Prix d\'achat</div>
 			<input type="text" style="width:167px" class="form-control" id="newPaArt'.$id.'" name="newPaArt'.$id.'" placeholder="Prix d\'achat" value="'.$art[0]['prix_achat' ].'">
-			<dic class="input-group-addon" style="width:20px">€</div>
+			<div class="input-group-addon" style="width:20px">€</div>
 		</div>
 	 </div><br />
 	 <div class="form-group">
