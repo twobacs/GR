@@ -967,25 +967,28 @@ public function gestArticles($articles,$categories,$mesures,$fournisseurs,$matos
 	$html.='<li style="list-style: none; cursor:pointer;" onclick="slide(\'slide1\',\'0\');">Mat&eacute;riel</li><li style="cursor:pointer;" onclick="slide(\'slide2\',\'0\');">Cat&eacute;gories</li><li style="cursor:pointer;" onclick="slide(\'slide3\',\'0\');">Mesures</li><li style="cursor:pointer;" onclick="slide(\'slide4\',\'0\');">Fournisseurs</li>';
 	$html.='<div id="slide1"';
 	$html.=((isset($_GET['visible']))&&($_GET['visible']=='articles')) ? ' style="display:block";' : '';
-	$html.='><h3>Mat&eacute;riel actif</h3>';
-	$html.='<a href="?component=logistique&action=addPMB"><input type="button" value="Ajouter un article"></a><hr>';
+	$html.='><h3>Mat&eacute;riel</h3>';
+	$html.='<a href="?component=logistique&action=addPMB" class="btn btn-primary btn-lg active" role="button">Ajouter un article</a><hr>';
 	if($articles['nbArts']==0){
 		$html.='Aucun article n\'est actuellement encod&eacute;';
 	}
 	else{
 		for($i=0;$i<$articles['nbArts'];$i++){
 			$html.='<table class="table" id="tableArt'.$articles[$i]['id_article'].'">';
-			$html.='<tr><td><input type="text" name="denArti" id="denArt'.$articles[$i]['id_article'].'" value="'.$articles[$i]['denomination'].'" placeHolder="D&eacute;nomination article" readonly style="cursor:not-allowed;"></td><td><input type="text" name="denCategArt" id="denCategArt'.$articles[$i]['id_article'].'" value="Cat&eacute;gorie : '.ucfirst($articles[$i]['denCateg']).'" placeHolder="D&eacute;nomination cat&eacute;gorie" readonly style="cursor:not-allowed;"></td>';
-			$html.='<td><input type="text" name="stockArt" id="stockArt'.$articles[$i]['id_article'].'" value="Stock actuel : '.$articles[$i]['stock'].'  '.$articles[$i]['uMesure'].'" readonly style="cursor:not-allowed;"></td><td><input type="text" name="stockMini" id="stockMini'.$articles[$i]['id_article'].'" value="Stock minimum : '.$articles[$i]['q_min'].' '.$articles[$i]['uMesure'].'" readonly style="cursor:not-allowed"></td></tr>';
-			$html.='<tr><td colspan="2"><input type="button" value="Modifier ce mat&eacute;riel" onclick="formModifArtById(\''.$articles[$i]['id_article'].'\',\''.$articles[$i]['denomination'].'\');"></td>';
-			$html.='<td colspan="2"><input type="button" value="D&eacute;sactiver ce mat&eacute;riel" style="border-color:red;" onclick="deActiveArtById(\''.$articles[$i]['id_article'].'\',\''.$articles[$i]['denomination'].'\');"></td></tr>';
+			$html.='<tr><td><input type="text" name="denArt" id="denArt'.$articles[$i]['id_article'].'" value="'.ucfirst($articles[$i]['denomination']).'" placeHolder="D&eacute;nomination article" readonly style="cursor:not-allowed;"></td><td><input type="text" name="denCategArt" id="denCategArt'.$articles[$i]['id_article'].'" value="Cat&eacute;gorie : '.ucfirst($articles[$i]['denCateg']).'" placeHolder="D&eacute;nomination cat&eacute;gorie" readonly style="cursor:not-allowed;"></td>';
+			$html.='<td><input type="text" name="stockArt" id="stockArt'.$articles[$i]['id_article'].'" value="Stock actuel : '.$articles[$i]['stock'].'  '.$articles[$i]['uMesure'].'" readonly style="cursor:not-allowed;';
+			$html.=($articles[$i]['stock']<$articles[$i]['q_min']) ? 'border-color:red' : '';
+			$html.='"></td><td><input type="text" name="stockMini" id="stockMini'.$articles[$i]['id_article'].'" value="Stock minimum : '.$articles[$i]['q_min'].' '.$articles[$i]['uMesure'].'" readonly style="cursor:not-allowed"></td></tr>';
+			$html.='<tr><td colspan="2"><input type="button" value="Plus d\'infos et modification de ce mat&eacute;riel" onclick="formModifArtById(\''.$articles[$i]['id_article'].'\',\''.$articles[$i]['denomination'].'\');"></td>';
+			$html.='<td colspan="2">';
+			$html.=($articles[$i]['actif']=='O') ? '<input type="button" value="D&eacute;sactiver ce mat&eacute;riel" style="border-color:red;" onclick="deActiveArtById(\''.$articles[$i]['id_article'].'\',\''.$articles[$i]['denomination'].'\');">' : '<input type="button" value="R&eacute;activer ce mat&eacute;riel" style="border-color:#00ff00;" onclick="reActiveArtById(\''.$articles[$i]['id_article'].'\',\''.$articles[$i]['denomination'].'\');">';
+			$html.='</td></tr>';
 			$html.='</table>';
 			$html.='<div id="formModifArt'.$articles[$i]['id_article'].'"></div>';
 			$html.='<hr>';
 		}
 		
 	}
-	$html.='<a href="?component=logistique&action=listAllArt" class="btn btn-primary btn-lg active" role="button">Liste de tous les articles, m&ecirc;me d&eacute;sactiv&eacute;s</a>';
 	$html.='</div>';
 	$html.='<div id="slide2"';
 	$html.=((isset($_GET['visible']))&&($_GET['visible']=='categ')) ? ' style="display:block";' : '';
@@ -1057,11 +1060,11 @@ public function formAddPMB($categories,$mesures,$fournisseurs){
 	$html.='<h2>Ajout de petit mat&eacute;riel de bureau</h2>';
 	$html.='
 <div id="gestAdminSite">
-    <form class="form-inline" method="POST" action="?component=logistique&action=addPMB&record">
+    <form class="form-inline" method="POST" action="?component=logistique&action=addPMB&record" enctype="multipart/form-data">
         <div class="form-group">
             <label class="sr-only" for="denNewArt">D&eacute;nomination</label>
             <div class="input-group">
-                <div class="input-group-addon" style="width:120px">D&eacute;nomination</div>
+                <div class="input-group-addon" style="width:120px" autofocus required>D&eacute;nomination</div>
                 <input style="width:200px;" type="text" class="form-control" id="denNewArt" name="denNewArt" placeholder="Nouvel article" autofocus required />
             </div>
             <label class="sr-only" for="comNewArt">Commentaire</label>
@@ -1074,7 +1077,7 @@ public function formAddPMB($categories,$mesures,$fournisseurs){
             <label class="sr-only" for="categNewArt">Cat&eacute;gorie</label>
             <div class="input-group">
                 <div class="input-group-addon" style="width:120px">Cat&eacute;gorie</div>
-                <select style="width:200px;" class="form-control" id="categNewArt" name="categNewArt"><option disabled selected></option>';
+                <select style="width:200px;" class="form-control" id="categNewArt" name="categNewArt" required><option disabled selected></option>';
 				while($row=$categories->fetch()){
 					$html.='<option value="'.$row['id_categorie'].'">'.ucfirst($row['denomination']).'</option>';
 				}
@@ -1084,7 +1087,7 @@ public function formAddPMB($categories,$mesures,$fournisseurs){
             <label class="sr-only" for="fournNewArt">Fournisseur</label>
             <div class="input-group">
                 <div class="input-group-addon" style="width:120px">Fournisseur</div>
-                <select style="width:200px;" class="form-control" id="fournNewArt" name="fournNewArt"><option disabled selected></option>';
+                <select style="width:200px;" class="form-control" id="fournNewArt" name="fournNewArt" required><option disabled selected></option>';
 					while($row=$fournisseurs->fetch()){
 						$html.='<option value="'.$row['id_fournisseur'].'">'.$row['nom'].'</option>';
 					}
@@ -1101,7 +1104,7 @@ public function formAddPMB($categories,$mesures,$fournisseurs){
             <label class="sr-only" for="uMesureNewArt">Unit&eacute; mesure</label>
             <div class="input-group">
                 <div class="input-group-addon" style="width:120px">Unit&eacute; mesure</div>
-                <select style="width:200px;" class="form-control" id="uMesureNewArt" name="uMesureNewArt"><option disabled selected></option>';
+                <select style="width:200px;" class="form-control" id="uMesureNewArt" name="uMesureNewArt" required><option disabled selected></option>';
 				while($row=$mesures->fetch()){
 					$html.='<option value="'.$row['id_uMesure'].'">'.$row['denomination'].'</option>';
 				}
@@ -1122,6 +1125,16 @@ public function formAddPMB($categories,$mesures,$fournisseurs){
                 <input type="text" style="width:200px;" class="form-control" id="qMinNewArt" name="qMinNewArt" placeholder="Quantit&eacute minimale">
             </div>
         </div>
+		<div class="form-group">
+			<div class="input-group">
+			<div class="input-group-addon" style="width:120px">Fichier (pdf)</div>
+			<input type="file" name="fileToUpload" id="fileToUpload" class="form-control" style="width:200px;">
+			</div>
+			<div class="input-group">
+			<div class="input-group-addon" style="width:120px">Photo</div>
+			<input type="file" name="picToUpload" id="picToUpload" class="form-control" style="width:200px;">
+			</div>
+		</div>
         <div class="form-group">
 	       <div class="input-group">
 	       <button style="width:646px" type="submit" class="btn btn-primary">Enregistrer</button>
@@ -1131,6 +1144,26 @@ public function formAddPMB($categories,$mesures,$fournisseurs){
 </div>
 </div>
 ';
+	$this->appli->content=$html;
+}
+
+public function listAllArt($data){
+	$html='<div id="gestAdminSite">';
+	$html.='<h2>Listing complet petit mat&eacute;riel de bureau</h2>';
+	$html.='<div class="table-responsive">';
+	$html.='<table class="table table-responsive">';
+	$html.='<thead><tr><th>D&eacute;nomination</th><th>Cat&eacute;gorie</th><th>Fournisseur</th><th>Stock</th><th>Stock mini</th><th>Prix achat</th><th>Valeur stock</th><th>Actif</th></tr></thead><tbody>';
+	$total=0;
+	for($i=0;$i<$data['nbArts'];$i++){
+		$valeur=($data[$i]['prix_achat']*$data[$i]['stock']);
+		$html.='<tr><td>'.ucfirst($data[$i]['denomination']).'</td><td>'.ucfirst($data[$i]['denCateg']).'</td><td>'.ucfirst($data[$i]['nomFourn']).'</td><td>'.$data[$i]['q_min'].'</td><td>'.$data[$i]['stock'].'</td><td>'.$data[$i]['prix_achat'].' €</td><td>'.$valeur.' €</td><td>';
+		$html.=($data[$i]['actif']=='O') ? 'Oui' : 'Non' ;
+		$html.='</td></tr>';
+		$total+=$valeur;
+	}
+	$html.='<tr class="success"><th colspan="6">Valeur totale stock :</th><td>'.$total.' €</td></tr></tbody>';
+	$html.='</table>';
+	$html.='</div></div>';
 	$this->appli->content=$html;
 }
 }

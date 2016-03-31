@@ -207,7 +207,7 @@ public function gestETTs(){
 
 public function gestPMB(){
 	if((isset($_SESSION['idUser']))&&($_SESSION['appli']=='logistique')&&($_SESSION['acces']>='8')){
-		$articles=$this->model->getArticles();
+		$articles=$this->model->getAllArticles();
 		$categories=$this->model->getCategories();
 		$mesures=$this->model->getMesures();
 		$fournisseurs=$this->model->getFournisseurs();
@@ -229,6 +229,5 @@ public function addPMB(){
 		}
 	}
 }
-
 }
 ?>

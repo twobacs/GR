@@ -23,10 +23,19 @@ function htmltosql($text)
 	}
 
 public function getInfosArticles($id=0,$actif="O"){
+	$attributs=func_get_args();
+	if (($attributs[0]=='O') || ($attributs[0]=='N') || ($attributs[0]=='A')){
+		$id=-1;
+		$actif=$attributs[0];
+	}
+	else{
+		$id=$attributs[0];
+		$actif=(isset($attributs[1])) ? $attributs[1] : "O";
+	}
 	$data['nbArts']=0;
 	$i=0;
 	$sql='SELECT
-	a.id_article, a.id_categorie, a.denomination, a.id_fournisseur, a.stock, a.commentaire, a.id_mesure, a.prix_achat, a.q_min,
+	a.id_article, a.id_categorie, a.denomination, a.id_fournisseur, a.stock, a.commentaire, a.id_mesure, a.prix_achat, a.q_min, a.actif,
 	b.denomination AS denCateg,
 	c.id_fournisseur, c.nom AS nomFourn,
 	d.denomination AS uMesure
@@ -34,8 +43,10 @@ public function getInfosArticles($id=0,$actif="O"){
 	LEFT JOIN categories_articles b ON b.id_categorie=a.id_categorie
 	LEFT JOIN fournisseurs c ON c.id_fournisseur=a.id_fournisseur
 	LEFT JOIN unite_mesure d ON d.id_uMesure = a.id_mesure';
-	$sql.=($id==0) ? ' WHERE a.actif="'.$actif.'"' : ' WHERE a.id_article="'.$id.'";
-	// WHERE id_article=:id';
+	if($id!=-1){
+		$sql.=($id==0) ? ' WHERE a.actif="'.$actif.'"' : ' WHERE a.id_article="'.$id.'"';
+	}
+	$sql.=' ORDER BY a.denomination';
 	$req=$this->pdo->query($sql);
 	while($row=$req->fetch()){
 		$data[$i]['id_article']=$row['id_article'];
@@ -51,14 +62,16 @@ public function getInfosArticles($id=0,$actif="O"){
 		$data[$i]['id_fournisseur']=$row['id_fournisseur'];
 		$data[$i]['nomFourn']=$row['nomFourn'];
 		$data[$i]['uMesure']=$row['uMesure'];
+		$data[$i]['actif']=$row['actif'];
 		$j=0;
-		$sqlDocs='SELECT id_doc, nom_doc, nom_fichier FROM documents_articles WHERE id_article=:idArt';
+		$sqlDocs='SELECT id_doc, nom_doc, nom_fichier, type_fichier FROM documents WHERE fk=:idArt AND tab=\'articles\'';
 		$reqDocs=$this->pdo->prepare($sqlDocs);
 		$reqDocs->execute(array('idArt'=>$data[$i]['id_article']));
 		while($rowDocs=$reqDocs->fetch()){
 			$data[$i][$j]['id_doc']=$rowDocs['id_doc'];
 			$data[$i][$j]['nom_doc']=$rowDocs['nom_doc'];
 			$data[$i][$j]['nom_fichier_doc']=$rowDocs['nom_fichier'];
+			$data[$i][$j]['type_fichier']=$rowDocs['type_fichier'];
 			$j++;
 		}
 		$data[$i]['nbDocs']=$j;
@@ -149,6 +162,13 @@ public function modifFourn($tab){
 }
 
 public function addNewArticle($tab){
+	include_once('functions.php');
+	if((isset($_FILES['fileToUpload']['name']))&& ($_FILES['fileToUpload']['name']!='')){
+					$nomDoc=uploadDoc('logistique');
+				}
+	if((isset($_FILES['picToUpload']['name'])) && ($_FILES['picToUpload']['name']!='')){
+					$nomImg=uploadPic('logistique');
+				}
 	$sql='INSERT INTO articles (id_categorie,denomination,id_fournisseur,stock,commentaire,id_mesure,prix_achat,q_min) VALUES (:idCat,:denom,:idFourn,:stock,:commentaire,:idMesure,:PA,:qMin)';
 	$req=$this->pdo->prepare($sql);
 	if($req){
@@ -162,13 +182,39 @@ public function addNewArticle($tab){
 	$req->bindParam(':qMin',$tab['qMinNewArt'],PDO::PARAM_INT);
 	$req->execute();
 	}
+	$newId=$this->pdo->lastInsertId();
+	if(isset($nomDoc)){
+		$sql1='INSERT INTO documents (tab, fk, nom_doc, nom_fichier, type_fichier) VALUES (:tab, :idArt, :nomDoc, :nomFichier, :typeFichier)';
+		$req1=$this->pdo->prepare($sql1);
+		if($req1){
+			$req1->bindValue(':tab','articles',PDO::PARAM_STR);
+			$req1->bindParam(':idArt',$newId,PDO::PARAM_INT);
+			$req1->bindParam(':nomDoc',$_FILES['fileToUpload']['name'],PDO::PARAM_STR);
+			$req1->bindValue(':nomFichier',$nomDoc,PDO::PARAM_STR);
+			$req1->bindValue(':typeFichier','pdf',PDO::PARAM_STR);
+			$req1->execute();
+		}		
+	}
+	if(isset($nomImg)){
+		$sql1='INSERT INTO documents (tab, fk, nom_doc, nom_fichier, type_fichier) VALUES (:tab, :idArt, :nomDoc, :nomFichier, :typeFichier)';
+		$req1=$this->pdo->prepare($sql1);
+		if($req1){
+			$req1->bindValue(':tab','articles',PDO::PARAM_STR);
+			$req1->bindParam(':idArt',$newId,PDO::PARAM_INT);
+			$req1->bindParam(':nomDoc',$_FILES['picToUpload']['name'],PDO::PARAM_STR);
+			$req1->bindValue(':nomFichier',$nomImg,PDO::PARAM_STR);
+			$req1->bindValue(':typeFichier','image',PDO::PARAM_STR);
+			$req1->execute();
+		}		
+	}	
 	return $req;
 }
 
-public function delArticlesById($id){
-	$sql='UPDATE articles SET actif="N" WHERE id_article=:id';
+public function modifActifArticlesById($id,$status){
+	$sql='UPDATE articles SET actif=:act WHERE id_article=:id';
 	$req=$this->pdo->prepare($sql);
 	$req->bindParam(':id',$id,PDO::PARAM_INT);
+	$req->bindParam(':act',$status,PDO::PARAM_STR);
 	$req->execute();
 	return $req->rowCount();
 }

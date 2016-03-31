@@ -28,10 +28,11 @@ else{
 			$html.='<h1>Connexion</h1>';
 			$html.='<input type="text" name="login" id="identifiant" placeholder="Identifiant"/>';
 			$html.='<input type="password" name="password"  id="password" placeholder="Mot de passe">';		
-			$html.='<button type="submit" class="btn btn-primary btn-block btn-large">Entrer</button>';
+			$html.='<button type="submit" class="btn btn-primary btn-block btn-large">Entrer</button>';			
 		$html.='</div>';
 	$html.='</form>';
-	
+	$menu='<h3>Site optimis&eacute; pour <a href="https://www.google.com/chrome/browser/desktop/index.html" target="_blank">Chrome</a></h3>';
 	$this->content=$html;
+	$this->menu_perso=$menu;
 }
 ?>

@@ -532,12 +532,36 @@ function updateFourn(id){
 }
 
 function deActiveArtById(idArt,denomArt){
-	var ok = confirm('Etes-vous sûr de vouloir supprimer cet article ? ('+denomArt+')');
+	var ok = confirm('Etes-vous sûr de vouloir désactiver cet article ? ('+denomArt+')');
 	if(ok){
 		document.getElementById('main').style.cursor="wait";
 		$.ajax({
 			type:"GET",
 			url:"js/php/logistique/deActiveArtById.php",
+			data:{
+				idArt:idArt,
+			},
+			success:function(retour){
+				if(retour==0){
+					alert('Une erreur s\'est produite');
+					document.getElementById('main').style.cursor="default";
+				}
+				else{
+					setTimeout(function(){window.location.href="?component=logistique&action=gestPMB&visible=articles"},2000);
+				}
+				},
+			
+		});
+	}
+}
+
+function reActiveArtById(idArt,denomArt){
+	var ok = confirm('Etes-vous sûr de vouloir réactiver cet article ? ('+denomArt+')');
+	if(ok){
+		document.getElementById('main').style.cursor="wait";
+		$.ajax({
+			type:"GET",
+			url:"js/php/logistique/reActiveArtById.php",
 			data:{
 				idArt:idArt,
 			},

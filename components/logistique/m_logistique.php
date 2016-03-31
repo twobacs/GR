@@ -824,6 +824,12 @@ public function getArticles(){
 	return $articles->getInfosArticles();
 }
 
+public function getAllArticles(){
+	include_once('./class/articles.class.php');
+	$articles=new Articles($this->appli->dbPdo);
+	return $articles->getInfosArticles('A');	
+}
+
 public function getCategories(){
 	include_once('./class/articles.class.php');
 	$articles=new Articles($this->appli->dbPdo);

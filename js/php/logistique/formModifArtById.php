@@ -10,7 +10,7 @@ if(isset($_GET['idArt'])){
 	$f=new Fournisseurs($pdo);
 	$fourn=$f->getFournisseurs();
 	$html='<hr>';
-
+// echo $art;
 	$html.='
 	<div class="form-inline">
 	  <div class="form-group">
@@ -35,8 +35,7 @@ if(isset($_GET['idArt'])){
 		<label class="sr-only" for="newStockArt'.$id.'">Stock</label>
 		<div class="input-group">
 		  <div class="input-group-addon" style="width:120px">Stock actuel</div>
-		  <input style="width:200px;" type="text" class="form-control" id="newStockArt'.$id.'" placeholder="Stock" value="'.$art[0]['stock'].'">
-		 
+		  <input style="width:200px;" type="text" class="form-control" id="newStockArt'.$id.'" placeholder="Stock" value="'.$art[0]['stock'].'">		 
 		</div>		
 		<label class="sr-only" for="newUMesureArt'.$id.'">Unit&eacute; mesure</label>
 		<div class="input-group">
@@ -48,7 +47,7 @@ if(isset($_GET['idArt'])){
 				$html.='>'.ucfirst($row['denomination']).'</option>';
 			}			
 		$html.='</select>
-	  </div><br />
+	  </div></div><br />
 	 <div class="form-group">
 		<label class="sr-only" for="newComArt'.$id.'">Commentaire</label>
 		<div class="input-group">
@@ -65,6 +64,7 @@ if(isset($_GET['idArt'])){
 				$html.='>'.ucfirst($row['nom']).'</option>';
 			}			
 		$html.='</select>
+	 </div>
 	 </div><br />
 	 <div class="form-group">
 		<label class="sr-only" for="newQMinArt'.$id.'">Quantit&eacute, min.</label>
@@ -80,11 +80,51 @@ if(isset($_GET['idArt'])){
 		</div>
 	 </div><br />
 	 <div class="form-group">
-	 <div class="input-group">
-	 <button style="width:646px" type="submit" class="btn btn-primary" onclick="recordModifsArticlesById(\''.$id.'\');">Enregistrer les modifications</button>
-	 </div>
-	 </div>
-	</div>';
+		<label class="sr-only" for="actifArt'.$id.'">Actif</label>
+		<div class="input-group">
+			<div class="input-group-addon"" style="width:120px">Actif ?</div>
+			<input type="text" class="form-control" readonly style="width:200px" name="actifArt'.$id.'" id="actifArt'.$id.'" placeHolder="Actif ?" value="';
+			$html.=($art[0]['actif']=="O") ? 'Oui' : 'Non' ;
+			$html.='">
+		</div>
+		<label class="sr-only" for="valeurArt'.$id.'">Valeur stock"</label>
+		<div class="input-group">
+			<div class="input-group-addon" style="width:120px">Valeur stock</div>
+			<input type="text" style="width:167px" class="form-control" id="valeurArt'.$id.'" name="valeurArt'.$id.'" placeHolder="Valeur stock" value="'.($art[0]['prix_achat']*$art[0]['stock']).'" readonly>
+			<div class="input-group-addon" style="width:20px">€</div>
+		</div>
+	 </div><br />';
+	 $html.='<div class="form-group">';
+	 if($art[0]['nbDocs']>0){
+		 for($j=0;$j<$art[0]['nbDocs'];$j++){
+	 $html.='
+	 
+		<label class="sr-only" for="linkDocArt'.$id.$j.'">Document</label>
+		<div class="input-group">
+			<div class="input-group-addon" style="width:120px">'.ucfirst($art[0][$j]['type_fichier']).' :</div>
+			<div class="form-control" style="width:200px" name="linkDocArt'.$id.$j.'" id="linkDocArt'.$id.$j.'"><a href="docroom/uploaded_files/logistique/'.$art[0][$j]['nom_fichier_doc'].'" target="_blank">'.$art[0][$j]['nom_doc'].'</a></div>
+		</div>';
+		 }
+	 }
+	 $html.='
+	 </div><br />
+	 <div class="form-group">
+		<div class="input-group">
+		<button style="width:320px" type="submit" class="btn btn-primary" onclick="addDocArt(\''.$id.'\');">Ajouter un document</button>
+		</div>
+	</div>
+	 <div class="form-group">
+		<div class="input-group">
+		<button style="width:320px" type="button" class="btn btn-primary" onclick="addPicArt(\''.$id.'\');">Ajouter une photo</button>
+		</div>
+	</div><br />
+	 <div class="form-group">
+		<div class="input-group">
+		<button style="width:646px" type="submit" class="btn btn-primary" onclick="recordModifsArticlesById(\''.$id.'\');">Enregistrer les modifications</button>
+		</div>
+	</div>
+	
+	';
 	echo $html;
 	
 }
