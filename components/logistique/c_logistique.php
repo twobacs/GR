@@ -224,10 +224,15 @@ public function addPMB(){
 			$this->view->formAddPMB($categories,$mesures,$fournisseurs);
 		}
 		else{
-			$this->model->addNewArt();
-			header('location: ?component=logistique&action=gestPMB&visible=articles');	
+			$newId=$this->model->addNewArt();
+			header('location: ?component=logistique&action=gestPMB&visible=articles#tableArt'.$newId.'');	
 		}
 	}
+}
+
+public function addDocToArt(){
+	$this->model->addDocToArt();
+	header('location: ?component=logistique&action=gestPMB&visible=articles&visible=articles#tableArt'.$_GET['art'].'');
 }
 }
 ?>

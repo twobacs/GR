@@ -630,6 +630,26 @@ function recordModifsArticlesById(id){
 	});
 }
 
+function formAddDocArt(id,type){
+	var formulaire='<form class="form-inline" method="POST" action="?component=logistique&action=addDocToArt&art='+id+'&type='+type+'" enctype="multipart/form-data">';
+	formulaire+='<div class="form-group">';
+	formulaire+='<div class="input-group">';
+	formulaire+='<div class="input-group-addon">Fichier ('+type+')</div>';
+	formulaire+='<input type="file" name="fileToUpload" id="fileToUpload" class="form-control">';
+	formulaire+='</div>';
+	formulaire+='</div><br />';
+	formulaire+='<div class="form-group">';
+	formulaire+='<div class="input-group">';
+	formulaire+='<input type="submit" class="btn btn-primary" value="Ajouter ce fichier" style="width:416px">';
+	formulaire+='</div>';
+	formulaire+='</div>';
+	
+	
+	document.getElementById('toAdd'+id).innerHTML=formulaire;
+	
+}
+
+
 function infobulle(div,msg){
 	document.getElementById(div).value=msg;
 }

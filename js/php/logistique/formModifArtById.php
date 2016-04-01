@@ -110,12 +110,12 @@ if(isset($_GET['idArt'])){
 	 </div><br />
 	 <div class="form-group">
 		<div class="input-group">
-		<button style="width:320px" type="submit" class="btn btn-primary" onclick="addDocArt(\''.$id.'\');">Ajouter un document</button>
+		<button style="width:320px" type="submit" class="btn btn-primary" onclick="formAddDocArt(\''.$id.'\',\'pdf\');">Ajouter un document</button>
 		</div>
 	</div>
 	 <div class="form-group">
 		<div class="input-group">
-		<button style="width:320px" type="button" class="btn btn-primary" onclick="addPicArt(\''.$id.'\');">Ajouter une photo</button>
+		<button style="width:320px" type="button" class="btn btn-primary" onclick="formAddDocArt(\''.$id.'\',\'image\');">Ajouter une photo</button>
 		</div>
 	</div><br />
 	 <div class="form-group">
@@ -123,6 +123,8 @@ if(isset($_GET['idArt'])){
 		<button style="width:646px" type="submit" class="btn btn-primary" onclick="recordModifsArticlesById(\''.$id.'\');">Enregistrer les modifications</button>
 		</div>
 	</div>
+	<br />
+	<div id="toAdd'.$id.'"></div>
 	
 	';
 	echo $html;

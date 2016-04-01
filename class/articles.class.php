@@ -207,7 +207,7 @@ public function addNewArticle($tab){
 			$req1->execute();
 		}		
 	}	
-	return $req;
+	return $newId;
 }
 
 public function modifActifArticlesById($id,$status){
@@ -233,6 +233,22 @@ public function recordModifsArtById($tab){
 	$req->bindParam(':idArt',$tab['idArt'],PDO::PARAM_INT);
 	$req->execute();
 	return $req->rowCount();
+}
+
+public function addDocToArt($post,$get){
+	include_once('functions.php');
+	$nomDoc=uploadDoc('logistique');
+	// echo $nomDoc;
+	$sql='INSERT INTO documents (tab, fk, nom_doc, nom_fichier, type_fichier) VALUES (:tab, :idArt, :nomDoc, :nomFichier, :typeFichier)';
+		$req=$this->pdo->prepare($sql);
+		if($req){
+			$req->bindValue(':tab','articles',PDO::PARAM_STR);
+			$req->bindParam(':idArt',$get['art'],PDO::PARAM_INT);
+			$req->bindParam(':nomDoc',$_FILES['fileToUpload']['name'],PDO::PARAM_STR);
+			$req->bindValue(':nomFichier',$nomDoc,PDO::PARAM_STR);
+			$req->bindValue(':typeFichier',$get['type'],PDO::PARAM_STR);
+			$req->execute();
+		}
 }
 
 }
