@@ -48,6 +48,12 @@ Temporary Items
 
 *.pdf
 *.PDF
+*.jpg
+*.gif
+*.jpeg
+*.JPEG
+*.GIF
+*.JPG
 
 main.conf.php
 connect.php
