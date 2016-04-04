@@ -968,7 +968,7 @@ public function gestArticles($articles,$categories,$mesures,$fournisseurs,$matos
 	$html.='<div id="slide1"';
 	$html.=((isset($_GET['visible']))&&($_GET['visible']=='articles')) ? ' style="display:block";' : '';
 	$html.='><h3>Mat&eacute;riel</h3>';
-	$html.='<a href="?component=logistique&action=addPMB" class="btn btn-primary btn-lg active" role="button">Ajouter un article</a><hr>';
+	$html.='<a href="?component=logistique&action=addPMB" class="btn btn-primary btn-lg active" role="button" style="width:867px;">Ajouter</a><hr>';
 	if($articles['nbArts']==0){
 		$html.='Aucun article n\'est actuellement encod&eacute;';
 	}
@@ -993,7 +993,7 @@ public function gestArticles($articles,$categories,$mesures,$fournisseurs,$matos
 	$html.='<div id="slide2"';
 	$html.=((isset($_GET['visible']))&&($_GET['visible']=='categ')) ? ' style="display:block";' : '';
 	$html.='><h3>Cat&eacute;gories</h3>';
-	$html.='<input type="button" id="bAddCateg" value="Ajouter" onclick="slide2(\'addCateg\');">';
+	$html.='<input type="button" id="bAddCateg" class="btn btn-primary btn-lg active" value="Ajouter une cat&eacute;gorie" onclick="slide2(\'addCateg\');">';
 	$html.='<div id="addCateg" style="display:none;"><table class="table"><tr><td style="width:68%;"><input placeholder="D&eacute;nomination nouvelle cat&eacute;gorie" type="text" name="denNewCateg" id="denNewCateg"></td><td style="width:32%;"><input type="button" value="Enregistrer" id="bAdd" onclick="addCategArt();"></td><td id="confirmSpaceAddArt"></td></tr></table><hr></div>';
 	$i=0;
 	$html.='<table class="table">';
@@ -1009,7 +1009,7 @@ public function gestArticles($articles,$categories,$mesures,$fournisseurs,$matos
 	$html.='<div id="slide3"';
 	$html.=((isset($_GET['visible']))&&($_GET['visible']=='mesures')) ? ' style="display:block";' : '';
 	$html.='><h3>Unit&eacute;s de mesure</h3>';
-	$html.='<input type="button" id="bAddUM" value="Ajouter" onclick="slide2(\'addUMesure\');">';
+	$html.='<input type="button" id="bAddUM" class="btn btn-primary btn-lg active" value="Ajouter" onclick="slide2(\'addUMesure\');">';
 	$html.='<div id="addUMesure" style="display:none;"><table class="table"><tr><td style="width:68%;"><input placeholder="D&eacute;nomination nouvelle unité de mesure" type="text" name="denNewUMesure" id="denNewUMesure"></td><td style="width:32%;"><input type="button" value="Enregistrer" id="bAddUM" onclick="addNewUMesure();"></td><td id="confirmSpaceAddUMesure"></td></tr></table><hr></div>';
 	$i=0;
 	$html.='<table class="table">';
@@ -1025,7 +1025,7 @@ public function gestArticles($articles,$categories,$mesures,$fournisseurs,$matos
 	$html.='<div id="slide4"';
 	$html.=((isset($_GET['visible']))&&($_GET['visible']=='fournisseurs')) ? ' style="display:block";' : '';
 	$html.='><h3>Fournisseurs</h3>';
-	$html.='<input type="button" id="bAddFourn" value="Ajouter" onclick="slide2(\'addFournisseur\');">';
+	$html.='<input type="button" id="bAddFourn" class="btn btn-primary btn-lg active" value="Ajouter" onclick="slide2(\'addFournisseur\');">';
 	$html.='<div id="addFournisseur" style="display:none;"><table class="table">';
 	$html.='<tr><td style="width:50%;"><input placeholder="Nom fournisseur" type="text" name="denNewFourn" id="denNewFourn" autofocus ></td><td style="width:50%;" colspan="2"><input type="text" placeholder="Num&eacute;ro d\'entreprise" name="numEntr" id="numEntr">';
 	$html.='<tr><td style="width:50%;"><input placeholder="Description" type="text" name="descFourn" id="descFourn"></td><td style="width:30%;"><input type="text" placeholder="Rue" name="rueFourn" id="rueFourn"><td style="width:20%"><input type="text" placeholder="Num&eacute;ro" name="numRueFourn" id="numRueFourn"></td></tr> 
