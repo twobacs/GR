@@ -104,6 +104,7 @@ if(isset($_GET['idArt'])){
 			<div class="input-group-addon" style="width:120px">'.ucfirst($art[0][$j]['type_fichier']).' :</div>
 			<div class="form-control" style="width:200px" name="linkDocArt'.$id.$j.'" id="linkDocArt'.$id.$j.'"><a href="docroom/uploaded_files/logistique/'.$art[0][$j]['nom_fichier_doc'].'" target="_blank">'.$art[0][$j]['nom_doc'].'</a></div>
 		</div>';
+		$html.=($j%2!=0) ? '<br />' : '';
 		 }
 	 }
 	 $html.='
