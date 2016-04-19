@@ -135,7 +135,7 @@ public function menuUser(){
 	$html='<div id="MenuUser">';
 	$html.='<div id="menuLog"  onclick="slide(\'slide4\',\'0\');">Menu utilisateur</div>';
 	$html.='<div id="slide4">';
-	$html.='<div id="aLog"><a href="?component=logistique&action=gestUsers">Exemple lien utilisateurs</a></div>';
+	$html.='<div id="aLog"><a href="?component=logistique&action=formComPMB">Commande fournitures de bureau</a></div>';
 	$html.='</div>';
 	$html.='</div>';
 	return $html;	
@@ -997,7 +997,8 @@ public function gestArticles($articles,$categories,$mesures,$fournisseurs,$matos
 	$html.='<div id="addCateg" style="display:none;"><table class="table"><tr><td style="width:68%;"><input placeholder="D&eacute;nomination nouvelle cat&eacute;gorie" type="text" name="denNewCateg" id="denNewCateg"></td><td style="width:32%;"><input type="button" value="Enregistrer" id="bAdd" onclick="addCategArt();"></td><td id="confirmSpaceAddArt"></td></tr></table><hr></div>';
 	$i=0;
 	$html.='<table class="table">';
-	while($row=$categories->fetch()){
+	// while($row=$categories->fetch()){
+	foreach ($categories as $key => $row){
 		$html.='<tr><th>D&eacute;nomination cat&eacute;gorie :</th><td id="idCateg'.$row['id_categorie'].'">'.ucfirst($row['denomination']).'</td><td id="bModifCateg'.$row['id_categorie'].'"><input type="button" value="Modifier" onclick="modifField(\'Categ\',\'idCateg'.$row['id_categorie'].'\',\''.$row['id_categorie'].'\',\''.ucfirst($row['denomination']).'\');" id="bEdit"></td><td><input type="button" value="Supprimer" id="bSupp" onclick="delCategArt(\''.$row['id_categorie'].'\',\''.$row['denomination'].'\');"></td></tr>';
 		$i++;
 	}
@@ -1078,7 +1079,7 @@ public function formAddPMB($categories,$mesures,$fournisseurs){
             <div class="input-group">
                 <div class="input-group-addon" style="width:120px">Cat&eacute;gorie</div>
                 <select style="width:200px;" class="form-control" id="categNewArt" name="categNewArt" required><option disabled selected></option>';
-				while($row=$categories->fetch()){
+				foreach ($categories as $key => $row){
 					$html.='<option value="'.$row['id_categorie'].'">'.ucfirst($row['denomination']).'</option>';
 				}
 				$html.='
@@ -1164,6 +1165,84 @@ public function listAllArt($data){
 	$html.='<tr class="success"><th colspan="6">Valeur totale stock :</th><td>'.$total.' €</td></tr></tbody>';
 	$html.='</table>';
 	$html.='</div></div>';
+	$this->appli->content=$html;
+}
+
+public function formComPMB($articles, $categories, $idPanier){
+	$html='<div id="gestAdminSite">';
+	$html.='<h2>Commande de petit mat&eacute;riel de bureau</h2>';
+	$html.='
+	<div class="form-inline">
+		<div class="form-group" style="text-align:center;">';
+			if((isset($_GET['details']))&&($_GET['details']=='true')){
+				$html.='
+				<div class="input-group">
+					<div class="input-group-addon" style="width:230px;">Recherche par nom d\'article</div><input type="text" style="width:200px;" class="form-control" id="denomArt" name="denomArt" placeholder="D&eacute;nomination article" onkeyup="searchArtByInput(\''.$idPanier.'\',\''.$_SESSION['idUser'].'\');" autofocus>
+				</div>
+		</div>
+	</div>
+	<div class="form-inline">
+		<p><a class="btn btn-default" href="index.php?component=logistique&action=formComPMB" role="button" style="margin-top:12px;">Recherche par cat&eacute;gorie</a></p>
+	</div>';
+			}
+			else{
+			$html.='
+			<div class="input-group">
+				<div class="input-group-addon" style="width:230px;">S&eacute;lectionnez une cat&eacute;gorie</div><select style="width:200px;" class="form-control" id="categArt" name="categArt" onchange="selectArtByCateg(\''.$idPanier.'\',\''.$_SESSION['idUser'].'\');"><option selected disabled>S&eacute;lectionnez</option>';
+				foreach ($categories as $key => $row){
+					$html.='<option value="'.$row['id_categorie'].'">'.ucfirst($row['denomination']).'</option>';
+				}
+				$html.='</select>
+			</div>
+	</div>
+	<div class="form-inline">
+		<p><a class="btn btn-default" href="index.php?component=logistique&action=formComPMB&details=true" style="margin-top:12px;">Recherche par nom d\'article</a></p>
+	</div>
+	</div>';
+			}
+	$html.='<div id="repSearch" style="margin-top: 30px;"></div>';
+	$html.='</div>';
+	$this->appli->content=$html;
+}
+
+public function formPanier($panier,$idPanier){
+	$html='<div id="gestAdminSite">';
+	$html.='<h2>Gestion panier</h2>';
+	if((isset($_GET['rec']))&&($_GET['rec']=='true')){
+		$html.='<h4>Votre commande a &eacute;t&eacute soumise.</h4>';
+		$html.='<p><a class="btn btn-default" href="index.php?component=logistique&action=formComPMB" style="margin-top:12px;">Retour</a></p>';
+	}
+	else{
+	$html.='<h4>Contenu actuel</h4>';
+	$html.='<form method="POST" action="?component=logistique&action=validCart" onsubmit="return confirm(\'Etes-vous sûr de vouloir envoyer cette commande ?\nCelle-ci ne pourra plus être modifiée.\');">';
+	while($row=$panier->fetch()){
+		$html.='
+		<div class="form-group">
+		<div class="form-inline">
+			<div class="form-group" style="text-align:center;">
+				<div class="input-group-addon" style="width:450px;">'.$row['denomination'].' ('.$row['mesure'].')</div>
+				<div class="input-group-addon" style="width:35px; cursor:pointer;" onclick="modifQArt(\''.$row['id_article'].'\',\''.$idPanier.'\',\'plus\');"><span class="glyphicon glyphicon-plus" aria-hidden="true" title="Augmenter quantit&eacute;"></span></div>
+				<div class="input-group-addon" style="width:45px;" id="qArt'.$row['id_article'].'">'.$row['quantite'].'</div>
+				<div class="input-group-addon" style="width:35px; cursor:pointer;" onclick="modifQArt(\''.$row['id_article'].'\',\''.$idPanier.'\',\'moins\');"><span class="glyphicon glyphicon-minus" aria-hidden="true" title="Diminuer quantit&eacute;"></span></div>
+		</div>
+		
+		</div>
+		</div>
+		';
+	}
+	$html.='
+		<div class="form-inline">
+			<textarea name="commentaire" id="commentaire" class="form-control" rows="3" cols="76" placeHolder="Commentaire &eacute;ventuel"></textarea>
+		</div>
+		<div class="form-inline">
+			<button type="submit" class="btn btn-default" style="margin-top:12px;">Valider ma commande</button>
+		</div>
+		</form>
+
+		';
+	
+	}
+	$html.='</div>';
 	$this->appli->content=$html;
 }
 }

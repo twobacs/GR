@@ -23,7 +23,7 @@ $html.='</ul>';
 */
 
 else{
-	$html.='<form role="form" action="index.php?component=user&action=login" method="POST">';
+	$html.='<form role="form" action="index.php?component=user&action=login" method="POST" autocomplete="off">';
 		$html.='<div class="login">';
 			$html.='<h1>Connexion</h1>';
 			$html.='<input type="text" name="login" id="identifiant" placeholder="Identifiant"/>';

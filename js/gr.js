@@ -273,6 +273,7 @@ function delCategArt(id, denom){
 					url:"js/php/logistique/selectArtByCateg.php",
 					data:{
 						id:id,
+						why:0,
 					},
 					success:function(retour){
 						alert('Des articles sont encore liés à cette catégorie, veuillez apporter les modifications préalables.');
@@ -649,6 +650,97 @@ function formAddDocArt(id,type){
 	
 }
 
+function searchArtByInput(idPanier,idUser){
+	var art=document.getElementById('denomArt').value;
+	$.ajax({
+		type:"GET",
+		url:"js/php/logistique/selectArtByCateg.php",
+		data:{
+			idUser:idUser,
+			idPanier:idPanier,
+			id:art,
+			why:2,
+		},
+		success:function(retour){
+					document.getElementById('repSearch').innerHTML=retour;
+				},
+	});
+}
+
+function selectArtByCateg(idPanier,idUser){
+	var categ=document.getElementById('categArt').value;
+	$.ajax({
+		type:"GET",
+		url:"js/php/logistique/selectArtByCateg.php",
+		data:{
+			idUser:idUser,
+			idPanier:idPanier,
+			id:categ,
+			why:1,
+		},
+		success:function(retour){
+					document.getElementById('repSearch').innerHTML=retour;
+				},
+	});		
+}
+
+function addToCart(idArt,user,idPanier,why){
+	$.ajax({
+		type:"GET",
+		url:"js/php/logistique/addToCart.php",
+		data:{
+			idArt:idArt,
+			idUser:user,
+			idPanier:idPanier,
+		},
+		success:function(retour){
+			// alert(retour);
+			updateNbArtInCart(retour);
+			if(why==1){
+				selectArtByCateg(retour,user);			
+			}
+			else if(why==2){
+				searchArtByInput(retour,user);
+			}
+		},
+		
+	});
+}
+
+function updateNbArtInCart(idPanier){
+	$.ajax({
+		type:"GET",
+		url:"js/php/logistique/updateNbArtInCart.php",
+		data:{
+			idPanier:idPanier,
+		},
+		success:function(retour){
+			// alert(retour);
+			document.getElementById('nbArtInCart').innerHTML=retour;
+		},
+	});
+}
+
+function modifQArt(art,panier,op){
+	$.ajax({
+		type:"GET",
+		url:"js/php/logistique/modifQArt.php",
+		data:{
+			art:art,
+			panier:panier,
+			op:op,
+		},
+		success:function(retour){
+			if(retour=='e'){
+				alert('Stock insuffisant');
+			}
+			else{
+			document.getElementById('qArt'+art).innerHTML=retour;
+			}
+		}
+	});
+	
+}
 
 function infobulle(div,msg){
 	document.getElementById(div).value=msg;

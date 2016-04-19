@@ -234,5 +234,27 @@ public function addDocToArt(){
 	$this->model->addDocToArt();
 	header('location: ?component=logistique&action=gestPMB&visible=articles&visible=articles#tableArt'.$_GET['art'].'');
 }
+
+public function formComPMB(){
+	if((isset($_SESSION['idUser']))&&($_SESSION['appli']=='logistique')&&($_SESSION['acces']>='1')){
+		$idPanier=$this->model->loadSessionIdPanier();
+		$this->view->formComPMB($this->model->getArticles(), $this->model->getCategories(), $idPanier);
+	}
+}
+
+public function gestPanierPMB(){
+	if((isset($_SESSION['idUser']))&&($_SESSION['appli']=='logistique')&&($_SESSION['acces']>='1')){
+		$panier=$this->model->getPanierActifByUser();
+		$idPanier=$this->model->loadSessionIdPanier();
+		$this->view->formPanier($panier,$idPanier);
+	}
+}
+
+public function validCart(){
+	$result=$this->model->validCart();
+	if($result==1){
+		header('location: ?component=logistique&action=gestPanierPMB&rec=true');
+	}
+}
 }
 ?>

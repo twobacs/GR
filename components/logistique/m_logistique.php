@@ -821,7 +821,7 @@ public function getETT(){
 public function getArticles(){
 	include_once('./class/articles.class.php');
 	$articles=new Articles($this->appli->dbPdo);
-	return $articles->getInfosArticles();
+	return $articles->getInfosArticles('A');
 }
 
 public function getAllArticles(){
@@ -863,6 +863,24 @@ public function addDocToArt(){
 	include_once('./class/articles.class.php');
 	$matos=new Articles($this->appli->dbPdo);
 	return $matos->addDocToArt($_POST, $_GET);
+}
+
+public function loadSessionIdPanier(){
+	include_once('./class/panier.class.php');
+	$panier=new Panier($this->appli->dbPdo);
+	return $panier->loadSessionIdPanier();
+}
+
+public function getPanierActifByUser(){
+	include_once('./class/panier.class.php');
+	$panier=new Panier($this->appli->dbPdo);
+	return $panier->getPanierActifByUser();	
+}
+
+public function validCart(){
+	include_once('./class/panier.class.php');
+	$panier=new Panier($this->appli->dbPdo);
+	return $panier->validCart();	
 }
 }
 ?>

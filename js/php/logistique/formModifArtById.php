@@ -23,7 +23,7 @@ if(isset($_GET['idArt'])){
 		  <label class="sr-only" for="newCategArt'.$id.'">Cat&eacute;gorie</label>
 		  <div class="input-group-addon" style="width:120px">Cat&eacute;gorie</div>
 		  <select style="width:200px;" class="form-control" id="newCategArt'.$id.'" name="newCategArt'.$i.'"><option disabled></option>';
-			while($row=$categs->fetch()){
+			foreach ($categs as $key => $row){
 				$html.='<option value="'.$row['id_categorie'].'"';
 				$html.=($row['id_categorie']==$art[0]['id_categorie']) ? ' selected' : '';
 				$html.='>'.ucfirst($row['denomination']).'</option>';

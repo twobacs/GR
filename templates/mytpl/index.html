@@ -3,20 +3,15 @@
 	<head>
 		<meta charset="utf-8" />
 		<link rel="shortcut icon" href="" type="image/icon" />
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" href="/GR/templates/mytpl/css/normalize.css">
 		<link rel="stylesheet" href="/GR/templates/mytpl/css/style.css" />
 		<link rel="stylesheet" href="/GR/templates/mytpl/css/styleJ.css" />
-		<link rel="stylesheet" href="/GR/templates/mytpl/css/bootstrap/css/bootstrap.css" />
-		<!--<link rel="stylesheet" href="/GR/templates/mytpl/css/bootstrap/css/bootstrap.min.css" />-->
-		<link rel="stylesheet" href="/GR/templates/mytpl/css/bootstrap/css/bootstrap-theme.css" />
-		<!--<link rel="stylesheet" href="/GR/templates/mytpl/css/bootstrap/css/bootstrap-theme.min.css" />-->
 		<?php echo $this->css2; ?>
 		<title>Plateforme GR - Police Mouscron</title>
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script type="text/javascript" src="/GR/js/gr.js"></script>
-		<script type="text/javascript" src="/GR/templates/mytpl/css/bootstrap/js/bootstrap.js"></script>
-		<script type="text/javascript" src="/GR/templates/mytpl/css/bootstrap/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="/GR/templates/mytpl/css/bootstrap/js/npm.js"></script>
 		<script type="text/javascript" src="/GR/templates/mytpl/js/index.js"></script>
 		<script type="text/javascript" src="/GR/templates/mytpl/js/prefixfree.min.js"></script>
 		<?php echo $this->jscript; ?>
@@ -38,8 +33,9 @@
 			</div>
 	
 		<footer>
-		<p class="text-right"><a href="mailto:debacker.jeremy@policemouscron.be" class="btn btn-primary btn-lg active" role="button">&#64; De Backer Jeremy</a></p>
+		<div id="nbArtInCart"><?php echo $this->panierPMB; ?></div>
+		<div id="alert"><?php echo $this->alert; ?></div>
+		<p class="text-left"><a href="mailto:debacker.jeremy@policemouscron.be" class="btn btn-primary btn-lg active" role="button">&#64; De Backer Jeremy</a></p>
 		</footer>
-	</div>	
 	</body>
 </html>

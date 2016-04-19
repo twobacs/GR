@@ -42,6 +42,8 @@ if(isset($_SESSION['idUser'])){
 	
 	$gestPMB='<li><a href="index.php?component=logistique&action=gestPMB">Gestion petit mat&eacute;riel</a>';
 	
+	$commande='<li><a href="index.php?component=logistique&action=formComPMB">Commande</a></li>';
+	
 	$html='<ul id="ariane">';
 
 	if(($component=='user')&&($action=='infosUser')){
@@ -278,6 +280,19 @@ if(isset($_SESSION['idUser'])){
 		$html.=$logistique;
 		$html.=$gestBatons;	
 		$html.='<li>Retrait</li>';
+	}
+
+	if(($component=='logistique')&&($action=='formComPMB')){
+		$html.=$accueil;
+		$html.=$logistique;
+		$html.='<li>Commande</li>';
+	}
+	
+	if(($component=='logistique')&&($action=='gestPanierPMB')){
+		$html.=$accueil;
+		$html.=$logistique;
+		$html.=$commande;
+		$html.='<li>Panier en cours</li>';
 	}	
 	
 	if(($component=='logistique')&&($action=='details')){

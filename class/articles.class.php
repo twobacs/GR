@@ -22,7 +22,7 @@ function htmltosql($text)
 	return $rep;
 	}
 
-public function getInfosArticles($id=0,$actif="O"){
+public function getInfosArticles($id=0,$actif="O",$where=''){
 	$attributs=func_get_args();
 	if (($attributs[0]=='O') || ($attributs[0]=='N') || ($attributs[0]=='A')){
 		$id=-1;
@@ -45,6 +45,9 @@ public function getInfosArticles($id=0,$actif="O"){
 	LEFT JOIN unite_mesure d ON d.id_uMesure = a.id_mesure';
 	if($id!=-1){
 		$sql.=($id==0) ? ' WHERE a.actif="'.$actif.'"' : ' WHERE a.id_article="'.$id.'"';
+	}
+	if($where!=''){
+		$sql.=' WHERE a.denomination LIKE "%'.$where.'%" ';
 	}
 	$sql.=' ORDER BY a.denomination';
 	$req=$this->pdo->query($sql);
@@ -96,11 +99,11 @@ public function getInfosArticles($id=0,$actif="O"){
 
 public function getCategories(){
 	$sql='SELECT id_categorie, denomination FROM categories_articles ORDER BY denomination';
-	return $this->pdo->query($sql);
+	return $this->pdo->query($sql)->fetchAll();
 }
 
 public function getArticlesByIdCateg($idCateg){
-	$sql='SELECT a.id_article, a.denomination, a.id_fournisseur, a.stock, a.commentaire, a.id_mesure, a.prix_achat, a.q_min,
+	$sql='SELECT a.id_article, a.denomination, a.id_fournisseur, a.stock, a.commentaire, a.id_mesure, a.prix_achat, a.q_min, a.actif,
 	b.nom, b.num_entreprise, b.description,
 	c.denomination AS mesure,
 	d.denomination AS categorie
