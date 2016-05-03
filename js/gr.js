@@ -742,6 +742,38 @@ function modifQArt(art,panier,op){
 	
 }
 
+function showDetailsOrder(idPanier){
+	$.ajax({
+		type:"GET",
+		url:"js/php/logistique/showDetailsOrder.php",
+		data:{
+			idPanier:idPanier,
+		},
+		success:function(retour){
+			document.getElementById('detailsCommande').innerHTML=retour;
+		}
+	});
+	
+}
+
+function editRowOrder(i,art){
+	$.ajax({
+		type:"GET",
+		url:"js/php/logistique/editRowOrder.php",
+		data:{
+			art:art,
+			i:i,
+		},
+		success:function(retour){
+			document.getElementById('editRowOrder'+i).innerHTML=retour;
+		}
+	});
+}
+
+function closeRow(i){
+	document.getElementById('editRowOrder'+i).innerHTML='';
+}
+
 function infobulle(div,msg){
 	document.getElementById(div).value=msg;
 }

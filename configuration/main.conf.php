@@ -31,11 +31,12 @@ define('BASE_URL', 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['SCRIPT_NAME
 
 $this->pathArticles = 'articles/';
 
-$pdo_options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
-$pdo = new PDO('mysql:host=localhost;dbname=','','',$pdo_options);
+$pdo_options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;$pdo = new PDO('mysql:host=localhost;dbname=polimo','AdminPolimo','ZPMouscron5317++',$pdo_options);
 $this->dbPdo = $pdo;
 
 $this->defaultComponent = '';
 $this->defaultAction = '';
+
+// $this->version='<br /><a href="./versions.html" target="_blank">Notes de rev</a>';
 
 ?>

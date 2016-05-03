@@ -56,6 +56,20 @@ public function validCart(){
 	}
 	return $count;
 }
+
+public function getInfosLignePanier($id){
+	$sql='
+	SELECT a.quantite_livree, a.date_livraison, a.com_logistique, a.idLog_livraison, a.idLog_livraison,
+	b.nom, b.prenom
+	FROM lignePanier a
+	LEFT JOIN users b ON b.id_user=a.idLog_livraison
+	WHERE a.id_ligne=:id
+	';
+	$req=$this->pdo->prepare($sql);
+	$req->bindValue('id',$id,PDO::PARAM_INT);
+	$req->execute();
+	return $req;
+}
 	
 }
 ?>

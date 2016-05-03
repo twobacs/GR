@@ -256,5 +256,12 @@ public function validCart(){
 		header('location: ?component=logistique&action=gestPanierPMB&rec=true');
 	}
 }
+
+public function showNewOrders(){
+	if((isset($_SESSION['idUser']))&&($_SESSION['appli']=='logistique')&&($_SESSION['acces']>='5')){
+		$data=$this->model->getNewOrders();
+		$this->view->showNewOrders($data);
+	}
+}
 }
 ?>

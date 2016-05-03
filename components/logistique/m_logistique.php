@@ -882,5 +882,11 @@ public function validCart(){
 	$panier=new Panier($this->appli->dbPdo);
 	return $panier->validCart();	
 }
+
+public function getNewOrders(){
+	include_once('./class/cart.class.php');
+	$cart=new Cart($this->appli->dbPdo);
+	return $cart->getNewOrders();	
+}
 }
 ?>

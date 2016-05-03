@@ -1,6 +1,6 @@
 <?php
 
-if(isset($_SESSION['idUser'])){
+if((isset($_SESSION['idUser']))&&(isset($_SESSION['appli']))){
 	$html='';
 	switch($_SESSION['appli']){
 		case 'logistique':
@@ -11,7 +11,7 @@ if(isset($_SESSION['idUser'])){
 				$req->bindValue('dateA','0000-00-00',PDO::PARAM_STR);
 				$req->execute();
 				$count=$req->rowCount();
-				$html.='<p class="text-left"><a class="btn btn-default" href="#" role="button"  style="width:250px;">'.$count.' commande';
+				$html.='<p class="text-left"><a class="btn btn-default" href="?component=logistique&action=showNewOrders" role="button"  style="width:250px;">'.$count.' commande';
 				$html.=($count>1) ? 's ont &eacute;t&eacute; &eacute;ffectu&eacute;es' : ' a &eacute;t&eacute; &eacute;ffectu&eacute;e';
 				$html.='</a></p>';
 			}

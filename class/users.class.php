@@ -270,5 +270,9 @@ public function getLoginById($id){
 	return $login;
 }
 
+public function getLogisticiens(){
+	$sql=''
+}
+
 }
 ?>

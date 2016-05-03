@@ -695,7 +695,7 @@ public function formAddMat($type){
 			$html.='<form method="POST" action="?component=logistique&action=addMat&type=arme&record" enctype="multipart/form-data"><table class="table">';
 			$html.='<tr><th>Marque & mod&egrave;le</th><th>Num&eacute;ro</th><th>Calibre</th><th>Date de livraison</th></tr>';
 			$html.='<tr><td><input placeholder="Marque & modèle"type="text" name="modArme" required></td><td><input placeholder="Numéro" type="text" name="numArme" required></td><td><select class="form-control" name="calibre" required><option></option><option value="9 mm">9 mm</option><option value="38 sp">38 sp</option></select></td><td><input type="date" name="dateAcquis" required></td></tr>';
-			$html.='<tr><th>Type</th><td><select class="form-control" name="typeArme"><option></option><option value="I">Individuelle</option><option value="C">Collective</td><th>Joindre dossier d\'acquisition (pdf)</th><td><input class="btn btn-default" type="file" name="fileToUpload" id="fileToUpload" required></td></tr>';
+			$html.='<tr><th>Type</th><td><select class="form-control" name="typeArme" required><option></option><option value="I">Individuelle</option><option value="C">Collective</td><th>Joindre dossier d\'acquisition (pdf)</th><td><input class="btn btn-default" type="file" name="fileToUpload" id="fileToUpload" required></td></tr>';
 			$cols='4';
 			break;
 		case 'brassard':
@@ -1243,6 +1243,29 @@ public function formPanier($panier,$idPanier){
 	
 	}
 	$html.='</div>';
+	$this->appli->content=$html;
+}
+
+public function showNewOrders($data){
+	$html='<div id="gestAdminSite">';
+	$html.='<h2>Commandes &agrave; tra&icirc;ter</h2>';
+	$html.='<div class="form-inline">';
+	while($row=$data->fetch()){
+		$html.='
+		<div class="form-group">
+			
+				<div class="input-group-addon" style="width:50px;">Date commande</div>
+				<div class="input-group-addon" style="width:50px;">'.$this->datefr($row['date_creation']).'</div>
+				<div class="input-group-addon" style="width:55px;">Demandeur</div>
+				<div class="input-group-addon" style="width:350px;">'.ucfirst($row['nom']).' '.ucfirst($row['prenom']).'</div>
+				<div class="input-group-addon" style="cursor:pointer;color:green;width:35px;" onclick="showDetailsOrder(\''.$row['id_panier'].'\');">D&eacute;tails</div>
+			
+		</div>
+		';
+	}
+	$html.='</div>';
+	$html.='</div>';
+	$html.='<div id="detailsCommande" style="margin-top:15px;"></div>';
 	$this->appli->content=$html;
 }
 }
