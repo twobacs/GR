@@ -770,6 +770,71 @@ function editRowOrder(i,art){
 	});
 }
 
+function updateLignePanier_Log(panier){
+	var log=document.getElementById('newLog_'+panier).value;
+		$.ajax({
+		type:"GET",
+		url:"js/php/logistique/updateLignePanier_Log.php",
+		data:{
+			panier:panier,
+			log:log,
+		},
+		success:function(retour){
+			if(retour!="1"){
+				alert('Une erreur s\'est produite');
+			}
+		}
+	});
+}
+
+function updateLignePanier_Date(panier){
+	var date=document.getElementById('dateLiv_'+panier).value;
+	$.ajax({
+		type:"GET",
+		url:"js/php/logistique/updateLignePanier_Date.php",
+		data:{
+			panier:panier,
+			date:date,
+		},
+		success:function(retour){
+			if(retour!="1"){
+				alert('Une erreur s\'est produite');
+			}
+		}
+	});
+}
+
+function modifQLivree(panier,ope){
+	$.ajax({
+		type:"GET",
+		url:"js/php/logistique/modifQLivree.php",
+		data:{
+			panier:panier,
+			ope:ope,
+		},
+		success:function(retour){
+			document.getElementById('qLivree_'+panier).innerHTML=retour;	
+		}
+
+	});
+}
+
+function updateComLogRowPanier(row){
+		var com=document.getElementById('ComLog'+row).value;
+		$.ajax({
+		type:"GET",
+		url:"js/php/logistique/updateComLogRowPanier.php",
+		data:{
+			row:row,
+			com:com,
+		},
+		// success:function(retour){alert(retour);}
+			// document.getElementById('qLivree_'+panier).innerHTML=retour;	
+		// }
+
+	});
+}
+
 function closeRow(i){
 	document.getElementById('editRowOrder'+i).innerHTML='';
 }

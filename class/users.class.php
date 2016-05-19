@@ -58,6 +58,7 @@ function login($login, $password){
 		if(md5($password)==$passbdd){
 			if($passbdd==md5('azerty')){
 					$_SESSION['idUser']=$id;
+					echo 'pouet';
 					return 3;
 			}
 			else{
@@ -271,7 +272,14 @@ public function getLoginById($id){
 }
 
 public function getLogisticiens(){
-	$sql=''
+	$sql='SELECT b.nom, b.prenom, b.id_user 
+	FROM grh_droits a 
+	LEFT JOIN users b ON b.id_user = a.id_user
+	WHERE a.app="logistique" AND a.niv_acces > "7" AND a.id_user <> "1"
+	ORDER BY b.nom ASC';
+	$req=$this->pdo->prepare($sql);
+	$req->execute();
+	return $req;
 }
 
 }

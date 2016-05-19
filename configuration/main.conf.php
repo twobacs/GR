@@ -34,8 +34,8 @@ $this->pathArticles = 'articles/';
 $pdo_options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;$pdo = new PDO('mysql:host=localhost;dbname=polimo','AdminPolimo','ZPMouscron5317++',$pdo_options);
 $this->dbPdo = $pdo;
 
-$this->defaultComponent = '';
-$this->defaultAction = '';
+$this->defaultComponent = 'user';
+$this->defaultAction = 'home';
 
 // $this->version='<br /><a href="./versions.html" target="_blank">Notes de rev</a>';
 

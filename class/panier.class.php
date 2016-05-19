@@ -70,6 +70,33 @@ public function getInfosLignePanier($id){
 	$req->execute();
 	return $req;
 }
+
+public function updateLignePanier_Log($idPanier, $idLog){
+	$sql='UPDATE lignePanier SET idLog_livraison=:log WHERE id_ligne=:ligne';
+	$req=$this->pdo->prepare($sql);
+	$req->bindValue('log',$idLog,PDO::PARAM_INT);
+	$req->bindValue('ligne',$idPanier,PDO::PARAM_INT);
+	$req->execute();
+	return $req->rowCount();
+}
+
+public function updateLignePanier_Date($idPanier, $date){
+	$sql='UPDATE lignePanier SET date_livraison=:date WHERE id_ligne=:ligne';
+	$req=$this->pdo->prepare($sql);
+	$req->bindValue('date',$date,PDO::PARAM_INT);
+	$req->bindValue('ligne',$idPanier,PDO::PARAM_INT);
+	$req->execute();
+	return $req->rowCount();
+}
+
+public function updateLignePanier_ComLog($row,$com){
+	$sql='UPDATE lignePanier SET com_logistique=:com WHERE id_ligne=:ligne';
+	$req=$this->pdo->prepare($sql);
+	$req->bindValue('com',$com,PDO::PARAM_INT);
+	$req->bindValue('ligne',$row,PDO::PARAM_INT);
+	$req->execute();
+	return $req->rowCount();
+}
 	
 }
 ?>

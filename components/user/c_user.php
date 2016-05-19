@@ -16,7 +16,7 @@ public function home(){
 	if(isset($_SESSION['idUser'])){
 		$this->view->menuAccueil();
 	}
-	else $this->view->unconnected();
+	else $this->view->formConnect();
 }
 
 public function infosUser(){

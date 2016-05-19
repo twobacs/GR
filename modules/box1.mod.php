@@ -322,6 +322,12 @@ if(isset($_SESSION['idUser'])){
 		}
 	}
 	
+	if(($component=='logistique')&&($action=='showNewOrders')){
+		$html.=$accueil;
+		$html.=$logistique;
+		$html.='<li>Commandes &agrave; tra&icirc;ter</li>';
+	}
+	
 	if(($component=='finances')&&($action=='home')){
 		$html.=$accueil;
 		$html.=$finances;
