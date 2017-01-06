@@ -122,7 +122,7 @@ body{
 	width: 96px;
     height: 96px;	
 	line-height:96px;
-	font-size: 30;
+	font-size: 30px;
 }
 
 .bLogi:hover, .bFinances:hover, .bGRH:hover, .bPers:hover, .bAdmin:hover
@@ -135,7 +135,7 @@ body{
 	border: 8px #2C75FF solid;
 	/*font-size: 55;*/
 	box-shadow: none;
-	font-size:20;
+	font-size:20px;
 }
 
 .bAdmin:hover{
@@ -176,10 +176,5 @@ font-size:25px;
 
 #slide1 a:hover ,#slide2 a:hover ,#slide3 a:hover ,#slide4 a:hover {
 color : white;
-
-}
-
-
-
 
 }
