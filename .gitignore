@@ -60,3 +60,5 @@ connect.php
 session.txt
 version.php
 autoload.php
+configuration/main.conf.php
+js/php/autoload.php

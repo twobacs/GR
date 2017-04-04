@@ -12,7 +12,7 @@ include('../../../class/fournisseurs.class.php');
 include('../../../class/grades.class.php');
 include('../../../class/nivacces.class.php');
 include('../../../class/panier.class.php');
-include('../../../class/pers_contact.class.php');
+include('../../../class/pers_contact.class.php'); 
 include('../../../class/radios.class.php');
 include('../../../class/services.class.php');
 include('../../../class/users.class.php');
