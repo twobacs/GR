@@ -43,6 +43,8 @@ if(isset($_SESSION['idUser'])){
 	$gestPMB='<li><a href="index.php?component=logistique&action=gestPMB">Gestion petit mat&eacute;riel</a>';
         
         $gestMob='<li><a href="index.php?component=logistique&action=gestMob">Gestion mobilier</a>';
+        
+        $gestLoc='<li><a href="index.php?component=logistique&action=gestLoc">Gestion locaux</a>';
 	
 	$commande='<li><a href="index.php?component=logistique&action=formComPMB">Commande</a></li>';
 	
@@ -149,6 +151,12 @@ if(isset($_SESSION['idUser'])){
 		$html.=$logistique;
 		$html.=$gestPMB;
 	}
+        
+        if($component=='logistique'&&($action=='gestLoc')){
+            $html.=$accueil;
+		$html.=$logistique;
+		$html.=$gestLoc;
+        }
         
         if(($component=='logistique')&&($action=='gestMob')){
             $html.=$accueil;
