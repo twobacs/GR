@@ -1,6 +1,6 @@
 ﻿<?php
 
-$pdo = new PDO('mysql:host=localhost;dbname=polimo','AdminPolimo','ZPMouscron5317++');
+$pdo = new PDO('mysql:host=localhost;dbname=***','***','***');
 
 include('../../../class/armes.class.php');
 include('../../../class/articles.class.php');
