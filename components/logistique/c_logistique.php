@@ -94,6 +94,27 @@ public function gestBatons(){
 	else $this->view->error();
 }
 
+public function gestMob(){
+    if((isset($_SESSION['idUser']))&&($_SESSION['appli']=='logistique')&&($_SESSION['acces']>='8')){
+       $this->view->gestMob();
+    }
+    else if(!isset($_SESSION['idUser'])){
+		$this->view->unconnected();
+	}
+	else $this->view->error();
+}
+
+public function gestLoc(){
+    if((isset($_SESSION['idUser']))&&($_SESSION['appli']=='logistique')&&($_SESSION['acces']>='8')){
+        $data=$this->model->getLoc();
+        $this->view->gestLoc($data);
+    }
+    else if(!isset($_SESSION['idUser'])){
+		$this->view->unconnected();
+	}
+	else $this->view->error();
+}
+
 public function retour(){
 	if((isset($_SESSION['idUser']))&&($_SESSION['appli']=='logistique')&&($_SESSION['acces']>='8')){
 		if(!isset($_POST['motif'])){

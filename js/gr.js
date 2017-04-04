@@ -835,6 +835,61 @@ function updateComLogRowPanier(row){
 	});
 }
 
+function recGL(type){
+    
+    if(type==='bat'){
+        var nBat=document.getElementById('nBat').value;
+        var nLvl=0;
+        var nLcl=0;
+    }
+    else if (type==='lvl'){
+        var temp=document.getElementById('existBat');
+        var nBat=temp.options[temp.selectedIndex].value;
+        var nLvl=document.getElementById('nLvl').value;
+        var nLcl=0;
+    }
+    else if (type==='lcl'){
+        var temp=document.getElementById('existBat2');
+        var nBat=temp.options[temp.selectedIndex].value;
+        var temp=document.getElementById('idNivToNewLcl');
+        var nLvl=temp.options[temp.selectedIndex].value;
+        var nLcl=document.getElementById('nLcl').value;
+    }
+    $.ajax({
+        type:"GET",
+        url:"js/php/logistique/addNewGestLoc.php",
+        data:{
+            nBat : nBat,
+            nLvl : nLvl,
+            nLcl : nLcl
+        },
+        success:function(retour){
+            if(retour==1){
+                location.reload();
+            }
+        }
+    });
+}
+
+function addInfosNewLcl(){
+    var temp=document.getElementById('existBat2');
+    var idBat=temp.options[temp.selectedIndex].value;
+    //alert(idBat);
+    $.ajax({
+        type:"GET",
+        url:"js/php/logistique/getLvlByIdBat.php",
+        data:{
+            idBat : idBat
+        },
+        success:function(retour){document.getElementById('selectLclByBat').innerHTML=retour;}
+    });
+    //document.getElementById('selectLclByBat').innerHTML='<input type="text" value="Yo msieur White">';
+}
+
+function addInputTextForNewLcl(){
+    document.getElementById("inputTextForNewLcl").innerHTML='<input type="text" class="form-control" id="nLcl" placeHolder="Nom local">';
+}
+
 function closeRow(i){
 	document.getElementById('editRowOrder'+i).innerHTML='';
 }

@@ -41,6 +41,8 @@ if(isset($_SESSION['idUser'])){
 	$gestETTs.=(($action=='assoc')||($action=='retour')) ? '&visible=attrib">Gestion ETT</a></li>' : '">Gestion ETT</a></li>';
 	
 	$gestPMB='<li><a href="index.php?component=logistique&action=gestPMB">Gestion petit mat&eacute;riel</a>';
+        
+        $gestMob='<li><a href="index.php?component=logistique&action=gestMob">Gestion mobilier</a>';
 	
 	$commande='<li><a href="index.php?component=logistique&action=formComPMB">Commande</a></li>';
 	
@@ -147,6 +149,12 @@ if(isset($_SESSION['idUser'])){
 		$html.=$logistique;
 		$html.=$gestPMB;
 	}
+        
+        if(($component=='logistique')&&($action=='gestMob')){
+            $html.=$accueil;
+            $html.=$logistique;
+            $html.=$gestMob;
+        }
 	
 	if(($component=='personnel')&&($action=='gestUsers')){
 		$html.=$accueil;

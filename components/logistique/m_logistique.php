@@ -888,5 +888,11 @@ public function getNewOrders(){
 	$cart=new Cart($this->appli->dbPdo);
 	return $cart->getNewOrders();	
 }
+
+public function getLoc(){
+    $sql='SELECT a.id, a.denomination, a.commentaire, a.id_niveau FROM local a ORDER BY a.id_niveau';
+    $req=$this->appli->dbPdo->query($sql);
+    return $req;
+}
 }
 ?>
