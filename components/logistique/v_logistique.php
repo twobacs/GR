@@ -1271,16 +1271,87 @@ public function showNewOrders($data){
 	$this->appli->content=$html;
 }
 
-public function gestMob(){
+public function gestMob($categs,$batiments,$listMob){
+    $reload=(isset($_GET['reload'])) ? filter_input(INPUT_GET, 'reload'):'';
+    $action=(isset($_GET['action'])) ? filter_input(INPUT_GET, 'action'):'';
+    $reload=($action=='recordNewMob') ? 'menuAddMob' : '';
+    //echo $reload;
     $html='<div id="gestAdminSite">';
     $html.='<h2>Gestion mobilier</h2>';
-    $html.='';
+    $html.='<ul>'
+            . '<li><a href="#" onclick="slide(\'menuAddMob\');">Ajouter</a>'
+            . '<li><a href="#" onclick="slide(\'menuSearchMob\');">Rechercher</a>'
+            . '<li><a href="#" onclick="slide(\'menuListMob\');">Lister</a>'
+            . '</ul>';
     $html.='</div>';
+    //AJOUT DE MOBILIER
+    $html.='<div id="menuAddMob" style="display:';
+    $html.=($reload=='menuAddMob') ? 'block' : 'none';
+    $html.=';"><h3>Ajouter du mobilier</h3>'
+            . '<form method="POST" action="index.php?component=logistique&action=recordNewMob" enctype="multipart/form-data" style="margin:0 auto; width:650px;">'
+            . '<div class="input-group" style="width:650px;">'
+            . '<span class="input-group-addon" style="min-width:200px;">Catégorie</span><select required class="form-control" name="newMobSelectCateg" id="newMobSelectCateg" onchange="checkAddCatg();"><option></option><option value="-1">Ajouter une catégorie</option>';
+            while($row=$categs->fetch()){
+                $html.='<option value="'.$row['id'].'">'.$row['denomination'].'</option>';
+            }
+    $html.='</select></div>'
+            . ' <div id="inputAddCateg" style="display:none;">'
+            . '     <div class="input-group" style="width:650px;">'
+            . '         <span class="input-group-addon" style="min-width:200px;"/>Nouvelle cat&eacute;gorie</span>'
+            . '         <input type="text" class="form-control" placeholder="D&eacute;nomination nouvelle cat&eacute;gorie" id="denomNewMobCateg">'
+            . '         <span class="input-group-addon" style="cursor:pointer;" onclick="addNewMobCateg(\''.$_SERVER['HTTP_HOST'].'\',\''.$_SERVER['REQUEST_URI'].'\');" >Enregistrer</span>'
+            . '     </div>'
+            . ' </div>'
+            . ' <div class="input-group" style="width:650px;">'
+            . '     <span class="input-group-addon" style="min-width:200px;">D&eacute;nomination</span>'
+            . '     <input required type="text" name="denomNewMob" id="denomNewMob" class="form-control" placeholder="D&eacute;nomination nouvel objet">'
+            . ' </div>'
+            . ' <div class="input-group" style="width:650px;">'
+            . '     <span class="input-group-addon" style="min-width:200px;">Commentaire</span>'
+            . '     <input type="text" name="comNewMob" id="comNewMob" class="form-control" placeholder="Placez ici un commentaire &eacute;ventuel">'
+            . ' </div>'
+            . ' <div class="input-group" style="width:650px;">'
+            . '     <span class="input-group-addon" style="min-width:200px;">Ajouter un document</span>'
+            . '     <input required type="file" name="fileToUpload" id="fileToUpload" class="form-control">'
+            . ' </div>'
+            . ' <div class="input-group">'
+            . '     <span class="input-group-addon" style="min-width:200px;">B&acirc;timent d\'installation</span>'
+            . '     <select required class="form-control" name="selectedBatNewMob" id="selectedBatNewMob" onchange="addSelectLvlByIdBat();"><option value="-1" selected disabled></option>';
+    while($row=$batiments->fetch()){
+        $html.='<option value="'.$row['id'].'">'.$row['denomination'].'</option>';
+    }
+    $html.='    </select>'
+            . ' </div>'
+            . ' <div id="addSelectLvlNewMob" style="display:none;"></div>'
+            . ' <div id="addSelectLclNewMob" style="display:none;"></div>'
+            . ' <div class="input-group" style="width:650px;">'
+            . ' <input class="form-control" type="submit" style=":hover{border:1px black solid;}"value="Enregistrer">'
+            . ' </div>'
+            . '</div>'
+            . '</form>';
+    
+    //RECHERCHE DE MOBILIER
+    $html.='<div id="menuSearchMob" style="display:none;"><h3>Rechercher du mobilier</h3>'
+            . ''
+            . '</div>';
+    
+    //LISTE DE MOBILIER
+    $html.='<div id="menuListMob" style="display:none;"><h3>Lister le mobilier</h3>';
+    //$html.=$listMob['ttl'];
+    $html.='<table class="table table-bordered">';
+    $html.='<tr><th>D&eacute;nomination</th><th>Type</th><th>Local</th><th>Code QR</th></tr>';
+    for($i=0;$i<$listMob['ttl'];$i++){
+        $html.='<tr><td>'.$listMob[$i]['denomination'].
+                ' '.$listMob[$i]['commentaire']
+                .'</td><td>'.$listMob[$i]['denomType']
+                .'</td><td>'.$listMob[$i]['denomLcl'].' ('.$listMob[$i]['comLcl'].')</td><td><img width="75" height="75" src="http://'.$_SERVER['HTTP_HOST'].'/GR/docroom/QRcodes/'.$listMob[$i]['id'].'.png"></td></tr>';
+    }
+    $html.= '</table></div>';
     $this->appli->content=$html;
 }
 
 public function gestLoc($data){
-    $html='<h2>Gestion des locaux</h2>';  //PREVOIR MASQUAGE DE LA SITUATION ACTUELLE !!!
+    $html='<h2>Gestion des locaux</h2>';
     $html.='<div id="leftAlign">';
     $html.='<h4 style="cursor:pointer;" onclick="slide(\'sitAct\');">Situation actuelle</h4>';
     $h=0;
@@ -1317,6 +1388,7 @@ public function gestLoc($data){
             $local[$l]['id']=$row['id'];
             $local[$l]['denomination']=$row['denomination'];
             $local[$l]['idNiv']=$row['id_niveau'];
+            $local[$l]['commentaire']=$row['commentaire'];
             $l++;
         }
         $h++;
@@ -1331,7 +1403,7 @@ public function gestLoc($data){
                 $html.='<ul>';
                 for($k=0;$k<=$l;$k++){                    
                     if((isset($local[$k]['id']))&&(isset($niveau[$j]['id']))&&($local[$k]['idNiv']==$niveau[$j]['id'])){
-                    $html.=$local[$k]['denomination'].'<br />';
+                    $html.='<div onclick="editLcl(\''.$local[$k]['id'].'\')" style="cursor:pointer;">'.$local[$k]['denomination'].' '.$local[$k]['commentaire'].'</div><div id="editingLcl'.$local[$k]['id'].'"></div><br />';
                     }
                 }
                 $html.='</ul>';
@@ -1379,11 +1451,27 @@ public function gestLoc($data){
     $html.= '</select></td></tr>'
             . '<tr><td id="selectLclByBat"></td></tr>'
             . '<tr><td id="inputTextForNewLcl"></td></tr>'
+            . '<tr><td id="inputCommentForNewLcl"></td></tr>'
             . '<tr><td><input class="btn btn-default" type="button" value="Enregistrer" onclick="recGL(\'lcl\');"></td></tr></table></p>'
             . '</div>';
     
     //FIN MENU AJOUT D'ENTITES DANS LA TABLE "local"
     $html.='</div>';
+    $this->appli->content=$html;
+}
+
+public function showInfosMobById($data,$from){
+    $html='<h2>Infos mobilier</h2>';
+    while($row=$data->fetch()){
+        $html.='<div id="'.$row['id'].'">'
+                . '<table class="table">'
+                . '<tr><th>D&eacute;nomination</th><td>'.$row['denomination'].'</td></tr>'
+                . '<tr><th>Cat&eacute;gorie</th><td>'.$row['denomType'].'</td></tr>'
+                . '<tr><th>Local d\'installation</th><td>'.$row['denomLcl'].' ('.$row['comLcl'].')</td></tr>'
+                . '</table>'
+                . '<img src="http://'.$_SERVER['HTTP_HOST'].'/GR/docroom/QRcodes/'.$row['id'].'.png">'
+                . '</div>';
+    }   
     $this->appli->content=$html;
 }
 }

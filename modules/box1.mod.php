@@ -163,6 +163,12 @@ if(isset($_SESSION['idUser'])){
             $html.=$logistique;
             $html.=$gestMob;
         }
+        
+        if(($component=='logistique')&&($action=='recordNewMob')){
+            $html.=$accueil;
+            $html.=$logistique;
+            $html.=$gestMob;
+        }        
 	
 	if(($component=='personnel')&&($action=='gestUsers')){
 		$html.=$accueil;

@@ -58,7 +58,7 @@ function login($login, $password){
 		if(md5($password)==$passbdd){
 			if($passbdd==md5('azerty')){
 					$_SESSION['idUser']=$id;
-					echo 'pouet';
+					// echo 'pouet';
 					return 3;
 			}
 			else{
@@ -81,6 +81,11 @@ function login($login, $password){
 				if(isset($adm)){
 					$_SESSION['admin']=true;
 				}
+				$sql='INSERT INTO logs_GR (nom, prenom, instaLog) VALUES (:nom, :prenom, NOW())';
+				$req=$this->pdo->prepare($sql);
+				$req->bindParam(':nom',$nom,PDO::PARAM_STR);
+				$req->bindParam(':prenom',$prenom,PDO::PARAM_STR);
+				$req->execute();				
 				return 1;
 			}
 		}		

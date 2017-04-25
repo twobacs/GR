@@ -8,7 +8,7 @@ $html.='<li id="MC-1">Bonjour</li>';
 
 $html='';
 
-if(isset($_SESSION['idUser'])){
+if(isset($_SESSION['Prenom'])){
 	$html.='<li id="MP-1" onclick="slide(\'MP-1-1\');"><img src="./media/icons/mobile-menu-button.png" height="30px"> Bonjour '.$_SESSION['Prenom'].'</li>';
 	$html.='<ul id="MP-1-1"><li><a href="?component=user&action=infosUser">Mes donn&eacute;es</a></li><li><a href="?component=user&action=modifpassword">Changer mot de passe</a></li><li><a href="?component=user&action=logoff">Me d&eacute;connecter</a></li></ul>';	
 	$this->menu_perso=$html;

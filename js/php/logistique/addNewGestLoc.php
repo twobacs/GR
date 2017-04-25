@@ -3,6 +3,7 @@
 $nBat=\filter_input(INPUT_GET, 'nBat');
 $nLvl=\filter_input(INPUT_GET, 'nLvl');
 $nLcl=\filter_input(INPUT_GET, 'nLcl');
+$com=\filter_input(INPUT_GET, 'com');
 
 if(isset($nBat)){
     //echo $nBat.' '.$nLvl;
@@ -26,10 +27,11 @@ if(isset($nBat)){
     
     else{
        // echo $nLvl;
-        $sql='INSERT INTO local (denomination, id_niveau) VALUES (:den, :idNiv)';
+        $sql='INSERT INTO local (denomination, id_niveau) VALUES (:den, :idNiv, :com)';
         $req=$pdo->prepare($sql);
         $req->bindValue('den', ucfirst($nLcl),PDO::PARAM_STR);
         $req->bindValue('idNiv', $nLvl, PDO::PARAM_INT);
+        $req->bindValue('com', $com, PDO::PARAM_STR);
     }
 //*/
     $req->execute();
