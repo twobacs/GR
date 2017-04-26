@@ -1311,7 +1311,7 @@ public function gestMob($categs,$batiments,$listMob){
             . '     <input type="text" name="comNewMob" id="comNewMob" class="form-control" placeholder="Placez ici un commentaire &eacute;ventuel">'
             . ' </div>'
             . ' <div class="input-group" style="width:650px;">'
-            . '     <span class="input-group-addon" style="min-width:200px;">Ajouter un document</span>'
+            . '     <span class="input-group-addon" style="min-width:200px;">Ajouter document (PDF !)</span>'
             . '     <input required type="file" name="fileToUpload" id="fileToUpload" class="form-control">'
             . ' </div>'
             . ' <div class="input-group">'
